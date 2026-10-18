@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Intro from '../components/Intro.astro';
+import Projects from '../components/Projects.astro';
+import About from '../components/About.astro';
+import Toolkit from '../components/Toolkit.astro';
+import Experience from '../components/Experience.astro';
+import Certifications from '../components/Certifications.astro';
+import Playground from '../components/Playground.astro';
+import Creative from '../components/Creative.astro';
+import Contact from '../components/Contact.astro';
+---
+<BaseLayout>
+  <Intro />
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <div id="kim-portfolio">
+    <div class="ki-site ke-site" id="ke-top">
+      <Header />
+      <main id="main-content">
+        <Hero />
+        <About /><Projects /><Toolkit /><Experience /><Certifications /><Playground /><Creative /><Contact />
+      </main>
+    </div>
+  </div>
+  <script>import '../scripts/main.js';</script>
+</BaseLayout>

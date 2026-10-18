@@ -1,0 +1,24 @@
+---
+import { profile } from '../data/portfolio';
+---
+<footer class="contact-footer">
+  <span class="footer-identity">Kim Maturan &#183; Developer &amp; creative</span>
+  <div class="footer-links">
+    <a href={profile.github} target="_blank" rel="noopener noreferrer">GitHub <span class="action-arrow" aria-hidden="true">&#8599;</span></a>
+    <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span class="action-arrow" aria-hidden="true">&#8599;</span></a>
+    <a href="#ke-top">Back to top <span class="action-arrow" aria-hidden="true">&#8593;</span></a>
+    <button id="ki-play" class="ki-replay" type="button" hidden>Replay intro</button>
+  </div>
+</footer>
+<style>
+  :global(#kim-portfolio) .contact-footer {border-top:1px solid #606068;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 32px;padding:20px 0;color:#b8b8bd;font:12px/1.6 Arial,sans-serif}
+  .footer-identity {max-width:100%}
+  .footer-links {display:flex;flex-wrap:wrap;align-items:center;gap:6px 24px}
+  :global(#kim-portfolio) .contact-footer a,:global(#kim-portfolio) .contact-footer .ki-replay {display:inline-flex;align-items:center;gap:6px;min-height:44px;color:#eeeeec;font:12px/1.6 Arial,sans-serif}
+  :global(#kim-portfolio) .contact-footer .ki-replay {background:transparent;border:0;padding:0;cursor:pointer;text-underline-offset:5px}
+  .ki-replay:hover {text-decoration:underline}
+  @container(max-width:700px) {
+    :global(#kim-portfolio) .contact-footer {align-items:flex-start;flex-direction:column}
+    .footer-links {gap:4px 20px}
+  }
+</style>

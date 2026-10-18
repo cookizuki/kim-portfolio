@@ -1,0 +1,37 @@
+/* Only the synchronous eligibility flag can conceal the otherwise usable page. */
+html[data-intro] {overflow:hidden;scrollbar-gutter:stable;background:#0b0b0d}
+html[data-intro] body {background:#0b0b0d}
+html[data-intro] #kim-portfolio,html[data-intro] #kim-portfolio *,html[data-intro] .skip-link {visibility:hidden!important}
+.intro-overlay {display:none}
+html[data-intro] .intro-overlay {
+  display:block;position:fixed;inset:0;z-index:2147483000;
+  overflow:hidden;isolation:isolate;background:#0b0b0d;color:#fff;
+  font-family:Arial,sans-serif;visibility:visible;
+}
+.intro-overlay * {box-sizing:border-box}
+.intro-overlay .intro-center {position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.intro-overlay .ki-intro-mark {text-align:center;color:#fff;opacity:1;visibility:visible}
+.intro-overlay .ki-intro-mark>span {display:block;font-size:clamp(80px,10vw,112px);line-height:1.1;font-weight:500;letter-spacing:-4px}
+html[data-intro] .intro-overlay .ki-skip {
+  all:unset;box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;gap:6px;
+  position:absolute;inset:24px 24px auto auto;width:max-content;max-width:calc(100% - 48px);
+  height:44px;min-height:44px;max-height:44px;padding:0 14px;z-index:2;
+  background:#0b0b0d;color:#fff;border:1px solid #8b8b90;border-radius:0;
+  font:12px/1.5 monospace;white-space:nowrap;cursor:pointer;
+  transform:none;translate:none;scale:none;animation:none;transition:none;
+}
+.intro-overlay .ki-skip:focus-visible {outline:2px solid #fff;outline-offset:4px}
+.intro-overlay .ki-skip:hover {border-color:#fff}
+
+/* The running overlay holds only KM and Skip. The real hero is the composition. */
+html[data-intro="running"] .intro-overlay {background:transparent;pointer-events:none}
+html[data-intro] .intro-overlay .ki-skip {pointer-events:auto}
+html[data-intro="running"] #kim-portfolio,
+html[data-intro="running"] #kim-portfolio .ke-site,
+html[data-intro="running"] #kim-portfolio main,
+html[data-intro="running"] #kim-portfolio .ki-stage,
+html[data-intro="running"] #kim-portfolio .ki-stage *,
+html[data-intro="running"] #kim-portfolio .ki-nav,
+html[data-intro="running"] #kim-portfolio .ki-nav * {visibility:visible!important}
+html[data-intro] #kim-portfolio .ke-site {border-color:transparent}
+html[data-intro] #kim-portfolio .ki-stage {overflow:visible}

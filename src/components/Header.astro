@@ -1,0 +1,13 @@
+<header class="ki-nav">
+  <a class="ki-logo" href="#ke-top" aria-label="Kim - back to top">Kim</a>
+  <div class="nav-preferences">
+    <button id="theme-toggle" class="preference-toggle" type="button" aria-label="Switch color theme" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path class="sun-rays" d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/><path class="moon" d="M19 15A8 8 0 0 1 9 5a8 8 0 1 0 10 10Z"/></svg></button>
+    <button id="sound-toggle" class="preference-toggle" type="button" aria-label="Enable interaction sounds" aria-pressed="false" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3Z"/><path class="sound-waves" d="M16 8q4 4 0 8m3-11q7 7 0 14"/><path class="sound-muted" d="m17 9 5 6m0-6-5 6"/></svg></button>
+  </div>
+  <button class="nav-toggle" type="button" aria-controls="section-navigation" aria-expanded="false" hidden>Menu +</button>
+  <nav id="section-navigation" aria-label="Main navigation">
+    <a href="#ke-about">About</a><a href="#ke-work">Selected Work</a><a href="#ke-stack">Stack &amp; Tools</a><a href="#ke-experience">Experience</a><a href="#ke-certifications">Certifications</a><a href="#ke-playground">Playground</a><a href="#ke-creative">Creative</a><a href="#ke-contact">Contact <span class="action-arrow" aria-hidden="true">&#8599;</span></a>
+  </nav>
+  <div class="reading-progress" aria-hidden="true"><span></span></div>
+</header>
+<script>import '../scripts/preferences.js';</script>

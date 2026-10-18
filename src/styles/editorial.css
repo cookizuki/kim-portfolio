@@ -1,0 +1,79 @@
+﻿/* Intro transforms and ambient translate are composed independently. */
+#kim-portfolio .ki-name{transition:none;will-change:auto}
+#kim-portfolio .ki-portrait img{transform:none;transition:none;will-change:auto}
+#kim-portfolio .kl-object{width:80px;height:80px;right:5%;bottom:32px}
+#kim-portfolio .kl-object canvas{height:80px}
+#kim-portfolio .ke-about{padding-block:64px;gap:clamp(28px,5cqw,72px)}
+/* A single grid cell reserves the tallest project's height. Only current/peek render. */
+#kim-portfolio .project-track{display:grid;grid-template-columns:100%;grid-auto-flow:row;grid-auto-columns:auto;gap:0;width:calc(100% - 42px);transform:none}
+#kim-portfolio .project-slide{grid-area:1/1;visibility:hidden;pointer-events:none;opacity:1;padding:clamp(20px,3cqw,42px);gap:clamp(24px,4cqw,56px);grid-template-columns:minmax(0,.85fr) minmax(0,1.65fr);background:var(--paper);border-color:var(--line)}
+#kim-portfolio .project-slide[aria-hidden="false"],#kim-portfolio .project-slide:not([aria-hidden]){visibility:visible;pointer-events:auto;z-index:2}
+#kim-portfolio .project-slide[data-peek="true"]{visibility:visible;transform:translateX(calc(100% + 24px)) scale(.98);opacity:.4;z-index:0}
+#kim-portfolio .project-slide[data-departing="true"]{visibility:visible;transform:none;z-index:1}
+#kim-portfolio .project-carousel[data-moving="true"] .project-slide[data-peek="true"]:not([data-departing]){visibility:hidden}
+#kim-portfolio .project-copy .ke-number{display:block;margin-bottom:26px;letter-spacing:.1em}
+#kim-portfolio .project-slide h3{font-size:clamp(28px,3.4cqw,48px);margin:0 0 18px}
+#kim-portfolio .project-copy p{line-height:1.75}
+#kim-portfolio .screenshot-composition{position:relative;padding:18px 16px 0 0;isolation:isolate}
+#kim-portfolio .screenshot-rear{position:absolute;inset:0 0 18px 16px;background:var(--surface);border:1px solid var(--line);pointer-events:none;transform:rotate(1.5deg);opacity:.7;z-index:-1}
+#kim-portfolio .screenshot-rear img{width:100%;height:100%;object-fit:contain}
+#kim-portfolio .screenshot-window{aspect-ratio:16/10;box-shadow:0 12px 25px rgb(0 0 0 / .07)}
+#kim-portfolio .screenshot-toolbar{padding:18px 4px 0;min-height:112px}
+#kim-portfolio .screenshot-thumbnail{transition:opacity 180ms ease,outline-color 180ms ease}
+/* Actual photos retain natural proportions, including their embedded borders. */
+#kim-portfolio .photography-gallery{grid-template-columns:1.15fr .72fr 1fr;gap:clamp(24px,4cqw,60px);margin:44px 0 48px;align-items:start}
+#kim-portfolio .photography-gallery figure:nth-child(2){margin-top:90px}
+#kim-portfolio .photography-gallery figure:nth-child(3){margin-top:38px}
+#kim-portfolio .photography-gallery figcaption{display:flex;gap:16px;align-items:center;padding-top:8px;line-height:1.6}
+#kim-portfolio .photo-number{font-size:10px;letter-spacing:.08em;color:var(--muted)}
+#kim-portfolio .photo-title{color:var(--ink);transition:translate 200ms ease}
+#kim-portfolio .photo-hint{margin-left:auto;transition:translate 200ms ease}
+#kim-portfolio .photography-gallery figure:focus-within .photo-title{translate:3px 0}
+#kim-portfolio .photography-gallery figure:focus-within .photo-hint{translate:2px -2px}
+/* Stable targets: only the inner button label and arrow move. */
+#kim-portfolio .action-arrow{display:inline-block;transition:translate 180ms ease}
+#kim-portfolio .action-inner{display:inline-block;transition:translate 180ms ease,scale 100ms ease}
+#kim-portfolio .ki-description a:hover{transform:none}
+#kim-portfolio :is(a,button,summary):focus-visible .action-arrow{translate:2px -2px}
+#kim-portfolio :is(a,button):active .action-inner{scale:.98;translate:0 0}
+#kim-portfolio :is(.project-links a,.credential-link,.ke-resume[href],.ke-film-caption a,.ke-contact a,.hero-actions a:not(.hero-primary)){background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-position:left bottom;background-size:0 1px;transition:background-size 200ms ease}
+#kim-portfolio :is(.project-links a,.credential-link,.ke-resume[href],.ke-film-caption a,.ke-contact a,.hero-actions a:not(.hero-primary)):is(:hover,:focus-visible){background-size:100% 1px;text-decoration:none}
+#kim-portfolio :is(a,button,summary):focus-visible{outline:2px solid var(--ink);outline-offset:5px}
+@media(hover:hover) and (pointer:fine){
+ #kim-portfolio :is(a,button,summary):hover .action-arrow{translate:2px -2px}
+ #kim-portfolio :is(.hero-primary,.project-navigation button):hover .action-inner{translate:0 -2px}
+ #kim-portfolio .photography-gallery figure:hover .photo-title{translate:3px 0}
+ #kim-portfolio .photography-gallery figure:hover .photo-hint{translate:2px -2px}
+}
+@container(max-width:900px){
+ #kim-portfolio .photography-gallery{grid-template-columns:1.1fr .9fr;gap:32px}
+ #kim-portfolio .photography-gallery figure:nth-child(2){margin-top:54px}
+ #kim-portfolio .photography-gallery figure:nth-child(3){grid-column:1/-1;width:68%;justify-self:end;margin-top:0}
+}
+@container(max-width:800px){
+ #kim-portfolio .project-slide{grid-template-columns:1fr;gap:26px;align-content:start}
+ #kim-portfolio .project-track{width:100%}
+ #kim-portfolio .project-slide[data-peek="true"]{visibility:hidden}
+ #kim-portfolio .project-copy .ke-number{margin-bottom:14px}
+ #kim-portfolio .screenshot-composition{padding:0}
+ #kim-portfolio .screenshot-rear{display:none}
+ #kim-portfolio .kl-object{left:5%;right:auto;top:40cqw;bottom:auto;width:64px;height:64px}
+ #kim-portfolio .kl-object canvas{height:64px}
+}
+@container(max-width:650px){
+ #kim-portfolio .photography-gallery{grid-template-columns:1fr;gap:38px;margin-block:28px}
+ #kim-portfolio .photography-gallery figure:nth-child(n){grid-column:auto;width:100%;margin-top:0}
+}
+@media(prefers-reduced-motion:reduce){
+ #kim-portfolio .ki-name,#kim-portfolio .kl-object{translate:none!important}
+ #kim-portfolio .action-inner,#kim-portfolio .action-arrow,#kim-portfolio .photo-title,#kim-portfolio .photo-hint{translate:none!important;scale:none!important;transition:none}
+}
+
+#kim-portfolio .ki-nav nav a {font-size:13px;min-height:44px;display:inline-flex;align-items:center;padding-block:10px}
+#kim-portfolio .screenshot-caption {font-size:12px;line-height:1.5;color:var(--ink)}
+#kim-portfolio .screenshot-thumbnail {min-width:76px;min-height:56px}
+#kim-portfolio .screenshot-thumbnail span {font-size:11px}
+#kim-portfolio .viewer-close,
+#kim-portfolio .viewer-toolbar button {min-width:44px;min-height:44px;padding:10px 14px;font-size:13px}
+#kim-portfolio .project-navigation button {min-height:44px;padding:10px 14px;font-size:13px}
+#kim-portfolio .viewer-caption {font-size:13px;line-height:1.5}

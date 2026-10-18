@@ -1,0 +1,40 @@
+---
+import '../styles/portfolio.css';
+import '../styles/site.css';
+import '../styles/preferences.css';
+import '../styles/editorial.css';
+import '../styles/intro.css';
+import introBootstrap from '../scripts/intro-bootstrap.js?raw';
+interface Props { title?: string; description?: string; }
+const { title = 'Kim Maturan — Developer & Creative', description = 'The portfolio of Kim Maturan: aspiring software developer, founder, and creative. Explore software projects, experience, photography, and a little play.' } = Astro.props;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script is:inline>
+      (() => {
+        let theme;
+        try { theme = localStorage.getItem('kim-theme'); } catch {}
+        if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+    {Astro.url.pathname === "/" && <script is:inline set:html={introBootstrap} />}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b0b0d" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {canonical && <meta property="og:url" content={canonical} />}
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <title>{title}</title>
+  </head>
+  <body><slot /></body>
+</html>

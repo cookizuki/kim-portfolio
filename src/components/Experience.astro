@@ -1,0 +1,8 @@
+---
+import { experience } from '../data/portfolio';
+---
+<section class="kx-section" id="ke-experience" aria-labelledby="experience-heading">
+  <div class="ke-sectionline"><span class="ke-mono">04 / EXPERIENCE</span><span class="ke-mono">ROLES / CONTRIBUTIONS / GROWTH</span></div>
+  <div class="kx-heading"><h2 id="experience-heading">Where I’ve contributed.<br /><em>What I’ve learned.</em></h2></div>
+  <div class="kx-timeline">{experience.map(item => <article class="kx-entry"><div class="kx-date">{item.dates && <span class="ke-mono">{item.dates}</span>}<span class="kx-type">{item.type}</span></div><div class="kx-description"><h3>{item.role}</h3>{item.organization && <span class="kx-org">{item.organization}</span>}{item.description && <p>{item.description}</p>}</div></article>)}</div>
+</section>

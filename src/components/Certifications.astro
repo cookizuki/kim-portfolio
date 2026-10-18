@@ -1,0 +1,37 @@
+---
+import { certifications } from '../data/portfolio';
+const hasCertificateUrl = (url: string | null) => {
+  try { return !!url && ['https:', 'http:'].includes(new URL(url).protocol); } catch { return false; }
+};
+---
+<section class="kx-section" id="ke-certifications" aria-labelledby="cert-heading">
+  <div class="ke-sectionline"><span class="ke-mono">05 / CERTIFICATIONS</span><span class="ke-mono">CREDENTIALS & CONTINUED LEARNING</span></div>
+  <div class="kx-heading"><h2 id="cert-heading">Always a student.<br /><em>Always building.</em></h2></div>
+  <div class="kx-credentials">
+    {certifications.map((cert, i) => (
+      <article class="kx-credential">
+        <span class="kx-cert-number ke-mono">{String(i + 1).padStart(2, '0')}</span>
+        <div>
+          <span class="kx-type">CHALLENGE</span>
+          <div class="credential-details">
+            <h3>{cert.title}</h3>
+            {cert.issuer && <p>{cert.issuer}</p>}
+            <time class="ke-mono" datetime={cert.date}>{cert.dateLabel}</time>
+            {hasCertificateUrl(cert.verificationUrl) && (
+              <a class="credential-link" href={cert.verificationUrl} target="_blank" rel="noopener noreferrer">
+                View certificate <span class="action-arrow" aria-hidden="true">&#8599;</span>
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  :global(#kim-portfolio) .credential-details {display:flex;flex-direction:column;align-items:flex-start;min-width:0}
+  :global(#kim-portfolio) .credential-details h3 {margin:12px 0 10px}
+  :global(#kim-portfolio) .credential-details time {display:block;margin:0}
+  :global(#kim-portfolio) .credential-details .credential-link {width:fit-content;max-width:100%;margin:16px 0 0;padding:0 0 10px}
+</style>

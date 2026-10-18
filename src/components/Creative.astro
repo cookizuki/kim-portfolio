@@ -1,0 +1,26 @@
+﻿---
+import { creative, profile } from '../data/portfolio';
+---
+<section class="ke-creative" id="ke-creative" aria-labelledby="creative-heading">
+  <div class="ke-sectionline"><span class="ke-mono">07 / OFF THE KEYBOARD</span><span class="ke-mono">A DIFFERENT LENS</span></div>
+  <h2 id="creative-heading">Photography</h2>
+  <div class="photography-gallery">
+    {creative.map((photo, i) => <figure>
+      <button class="photo-open" type="button" data-photo-index={i} data-title={photo.title} aria-label={`Enlarge ${photo.title}`} aria-haspopup="dialog">
+        <img src={photo.image} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />
+      </button>
+      <figcaption><span class="photo-number">{String(i + 1).padStart(2, '0')}</span><span class="photo-title">{photo.title}</span><span class="photo-hint" aria-hidden="true"><span class="action-arrow" aria-hidden="true">&#8599;</span></span></figcaption>
+    </figure>)}
+  </div>
+  <div class="ke-film-caption"><span>Small moments. Different perspectives.</span><a href={profile.photography} target="_blank" rel="noopener noreferrer">View photography portfolio <span class="action-arrow" aria-hidden="true">&#8599;</span></a></div>
+  <dialog class="screenshot-viewer photography-viewer" aria-label="Enlarged photography gallery">
+    <button class="viewer-close" type="button" autofocus>Close &#215;</button>
+    <div class="viewer-image"></div>
+    <div class="viewer-toolbar">
+      <button type="button" data-photo-step="-1">Previous photo</button>
+      <span class="viewer-caption" aria-live="polite" aria-atomic="true"></span>
+      <button type="button" data-photo-step="1">Next photo</button>
+    </div>
+  </dialog>
+</section>
+<script>import '../scripts/photography.js';</script>

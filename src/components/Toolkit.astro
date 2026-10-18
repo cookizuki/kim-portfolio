@@ -1,0 +1,8 @@
+---
+import { toolkit } from '../data/portfolio';
+---
+<section class="kt-section" id="ke-stack" aria-labelledby="stack-heading">
+  <div class="ke-sectionline"><span class="ke-mono">03 / WHAT I BUILD WITH</span><span class="ke-mono">TECH STACK & TOOLKIT</span></div>
+  <div class="kt-intro"><h2 id="stack-heading">The stack behind<br /><em>the things I build.</em></h2><p>Languages, frameworks, and tools I’ve worked with across software projects and creative work.</p></div>
+  {toolkit.map(group => <div class="kt-layout"><div class="kt-rail"><h3>{group.title}</h3><span class="ke-mono">{group.subtitle}</span></div><div class="kt-rows">{group.rows.map(row => <div class="kt-row"><span class="kt-category">{row.category}</span><div class="kt-items">{row.items.map(item => <span>{item}</span>)}</div></div>)}</div></div>)}
+</section>

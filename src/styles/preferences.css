@@ -1,0 +1,53 @@
+﻿:root{--paper:#f5f4ef;--surface:#e9e8e2;--ink:#19191b;--muted:#57575c;--line:#8b8b90;--header-height:73px;color-scheme:light;background:var(--paper);color:var(--ink)}
+:root[data-theme="dark"]{--paper:#0b0b0d;--surface:#19191e;--ink:#eeeeec;--muted:#b8b8bd;--line:#606068;color-scheme:dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){--paper:#0b0b0d;--surface:#19191e;--ink:#eeeeec;--muted:#b8b8bd;--line:#606068;color-scheme:dark}}
+#kim-portfolio{--ke-paper:var(--paper);--ke-ink:var(--ink);--ke-dim:var(--muted);--ke-line:var(--line);--ke-image:var(--surface);--ke-inverse:var(--ink);--ke-inverse-ink:var(--paper)}
+#kim-portfolio .ke-contact{--paper:#0b0b0d;--surface:#19191e;--ink:#eeeeec;--muted:#b8b8bd;--line:#606068;background:var(--paper);color:var(--ink)}
+#kim-portfolio .ke-contact p,#kim-portfolio .ke-contact-bottom{color:var(--muted)}
+#kim-portfolio .ki-nav{position:sticky;top:0;z-index:30;background:var(--paper);padding:10px 4%;gap:18px;min-height:73px;isolation:isolate}
+#kim-portfolio .ki-nav nav{order:1;gap:clamp(10px,1.2vw,18px)}
+#kim-portfolio .nav-preferences{order:2;display:flex;gap:6px;align-items:center;margin-left:auto}
+#kim-portfolio .nav-toggle{order:3;margin-left:0}
+#kim-portfolio .preference-toggle{display:grid;place-items:center;width:44px;height:44px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:50%}
+.preference-toggle svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;transition:transform 250ms ease}
+.preference-toggle:active svg{transform:scale(.85) rotate(-12deg)}
+#theme-toggle .moon{display:none}
+[data-theme="dark"] #theme-toggle circle,[data-theme="dark"] #theme-toggle .sun-rays{display:none}
+[data-theme="dark"] #theme-toggle .moon{display:block}
+#sound-toggle .sound-waves{opacity:0;transform:scale(.8);transform-origin:center;transition:opacity 180ms,transform 180ms}
+#sound-toggle[aria-pressed="true"] .sound-waves{opacity:1;transform:scale(1)}
+#sound-toggle[aria-pressed="true"] .sound-muted{display:none}
+#kim-portfolio .reading-progress{position:absolute;bottom:-1px;left:0;right:0;height:2px;pointer-events:none}
+.reading-progress span{display:block;width:100%;height:100%;background:var(--ink);transform:scaleX(0);transform-origin:left}
+#kim-portfolio .ke-site section[id],#ke-top{scroll-margin-top:calc(var(--header-height) + 20px)}
+#kim-portfolio .ki-stage{overflow:visible;min-height:650px;height:650px}
+#kim-portfolio .ki-name{font-size:clamp(110px,14cqw,200px);left:5%;right:5%;top:38px;letter-spacing:-.065em;line-height:.86}
+#kim-portfolio .ki-name span{font-size:.77em;letter-spacing:.018em;font-kerning:none;-webkit-text-stroke:1px var(--ink);white-space:nowrap}
+#kim-portfolio .ki-portrait{width:44%;height:85%;right:3%;top:12px}
+#kim-portfolio .ki-description{bottom:88px;max-width:46%}
+#kim-portfolio .ki-description .hero-primary,#kim-portfolio .project-navigation button,#kim-portfolio .kg-controls button:first-child{background:var(--ink);color:var(--paper)}
+#kim-portfolio .kim-about-photo{background:transparent}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){z-index:1}
+@container(max-width:1340px){
+ #kim-portfolio .ki-nav{flex-wrap:wrap}
+ #kim-portfolio .ki-nav nav{order:4;width:100%;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px;max-height:65dvh;overflow-y:auto}
+ #kim-portfolio .ki-nav nav a{border-bottom:1px solid var(--line)}
+}
+@container(max-width:800px){
+ #kim-portfolio .ki-stage{height:auto;min-height:0;padding:32px 5% 18px;display:flex;flex-direction:column}
+ #kim-portfolio .ki-name{position:relative;inset:auto;font-size:19cqw;line-height:.88;z-index:3}
+ #kim-portfolio .ki-name span{font-size:.77em;margin-top:5px}
+ #kim-portfolio .ki-portrait{position:relative;inset:auto;align-self:flex-end;width:72%;height:72cqw;margin:-10cqw 0 0;z-index:2}
+ #kim-portfolio .ki-description{position:relative;inset:auto;max-width:100%;width:100%;margin-top:12px;font-size:23px}
+ #kim-portfolio .kl-object{left:5%;right:auto;top:40cqw;bottom:auto;width:64px;height:64px}
+ #kim-portfolio .kl-object canvas{height:64px}
+ #kim-portfolio .hero-scroll{position:relative;inset:auto;margin-top:24px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){::view-transition-group(root){animation:none!important}.preference-toggle svg{transition:none}}
+
+@container(max-width:1340px){
+ #kim-portfolio .ki-nav nav{position:absolute;top:100%;left:0;right:0;background:var(--paper);padding:12px 4% 20px;border-bottom:1px solid var(--line)}
+}
+
+#kim-portfolio .ki-logo{letter-spacing:-.03em}

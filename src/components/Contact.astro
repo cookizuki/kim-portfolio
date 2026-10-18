@@ -1,0 +1,36 @@
+---
+import { profile } from '../data/portfolio';
+import Footer from './Footer.astro';
+---
+<section class="ke-contact" id="ke-contact" aria-labelledby="contact-heading">
+  <div class="ke-sectionline"><span class="ke-mono">08 / The next chapter</span></div>
+  <p class="contact-invitation ke-mono">Have something in mind?</p>
+  <div class="contact-title">
+    <h2 id="contact-heading">LET&#8217;S BUILD<br /><em>something.</em></h2>
+    <span class="contact-accent" aria-hidden="true">&#8599;</span>
+  </div>
+  <div class="contact-details">
+    <a class="contact-email" href={`mailto:${profile.email}`}>{profile.email} <span class="action-arrow" aria-hidden="true">&#8599;</span></a>
+    <p>Internships, collaborations, or an idea worth exploring.</p>
+  </div>
+  <Footer />
+</section>
+<style>
+  :global(#kim-portfolio) .ke-contact {background:#0b0b0d;color:#eeeeec;padding:40px 5% 0}
+  :global(#kim-portfolio) .ke-contact .ke-sectionline {color:#b8b8bd}
+  :global(#kim-portfolio) .ke-contact .contact-invitation {margin:54px 0 16px;color:#b8b8bd;font-size:12px}
+  .contact-title {position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  :global(#kim-portfolio) .ke-contact h2 {font-size:clamp(46px,9.7cqw,136px);line-height:.98;letter-spacing:-.065em;margin:0;min-width:0}
+  :global(#kim-portfolio) .ke-contact h2 em {font-family:Georgia,serif;font-weight:400;letter-spacing:-.055em}
+  .contact-accent {font:clamp(48px,10cqw,140px)/1 Arial,sans-serif;color:#b8b8bd;align-self:flex-start;user-select:none;pointer-events:none}
+  .contact-details {margin:44px 0 56px;display:flex;flex-direction:column;align-items:flex-start;gap:18px;min-width:0}
+  :global(#kim-portfolio) .ke-contact .contact-email {display:inline-block;font-size:clamp(17px,3.2cqw,42px);line-height:1.4;letter-spacing:-.035em;padding-block:8px;overflow-wrap:anywhere;max-width:100%;color:#eeeeec}
+  :global(#kim-portfolio) .ke-contact .contact-details p {margin:0;font-size:14px;line-height:1.6;color:#b8b8bd}
+  @container(max-width:600px) {
+    :global(#kim-portfolio) .ke-contact {padding-top:28px}
+    :global(#kim-portfolio) .ke-contact .contact-invitation {margin-top:38px}
+    :global(#kim-portfolio) .ke-contact h2 {font-size:clamp(40px,11cqw,66px)}
+    .contact-accent {font-size:36px}
+    .contact-details {margin:30px 0 36px}
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import ScreenshotCarousel from './ScreenshotCarousel.astro';
+import { projects } from '../data/portfolio';
+---
+<section class="ke-work" id="ke-work" aria-labelledby="work-heading">
+  <div class="ke-sectionline"><span class="ke-mono">02 / SELECTED WORK</span><span class="ke-mono">A FEW THINGS I’VE BUILT</span></div>
+  <h2 id="work-heading" class="sr-only">Selected projects</h2>
+  <div class="project-carousel" role="region" aria-roledescription="carousel" aria-label="Selected projects" tabindex="0">
+    <div class="project-selectors" role="group" aria-label="Choose a project">
+      {projects.map((project, i) => <button type="button" data-project-select={i} aria-pressed={i === 0} aria-controls={`project-slide-${i}`}>{project.name}</button>)}
+    </div>
+    <div class="project-viewport">
+      <div class="project-track">
+        {projects.map((project, i) => (
+          <article class="project-slide" id={`project-slide-${i}`} role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${projects.length}: ${project.name}`} data-peek={i === 1 ? "true" : undefined} aria-hidden={i !== 0 ? 'true' : undefined} inert={i !== 0}>
+        <div class="project-copy">
+          <span class="ke-number">{String(i + 1).padStart(2, '0')}</span><h3>{project.name}</h3><p class="project-headline">{project.headline}</p><p class="project-description">{project.description}</p><span class="ke-mono">{project.stack}</span>
+          {project.contribution && <details class="ke-details"><summary>My contribution <span class="action-arrow" aria-hidden="true">&#8599;</span></summary><p>{project.contribution}</p></details>}
+          <div class="project-links">
+            {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">Visit website <span class="action-arrow" aria-hidden="true">&#8599;</span></a>}
+            {project.codeUrl && <a href={project.codeUrl} target="_blank" rel="noopener noreferrer">View source <span class="action-arrow" aria-hidden="true">&#8599;</span></a>}
+          </div>
+        </div>
+            <div class="project-visual"><ScreenshotCarousel images={project.images} name={project.name} composition={project.composition} /></div>
+          </article>
+        ))}
+      </div>
+    </div>
+    <div class="project-navigation">
+      <button type="button" data-project-step="-1" disabled={projects.length < 2}><span class="action-inner">Previous project</span></button>
+      <span class="project-counter" aria-live="polite" aria-atomic="true">PROJECT {projects.length ? '01' : '00'} / {String(projects.length).padStart(2, '0')}</span>
+      <button type="button" data-project-step="1" disabled={projects.length < 2}><span class="action-inner">Next project</span></button>
+    </div>
+  </div>
+</section>
+<script>import '../scripts/project-carousel.js';</script>
+
+<style>
+  :global(#kim-portfolio) .ke-work .project-slide {grid-template-columns:minmax(0,.9fr) minmax(0,1.25fr);padding:clamp(20px,3.5cqw,48px);gap:clamp(24px,4cqw,56px);align-items:center}
+  :global(#kim-portfolio) .ke-work .project-copy h3 {font-size:clamp(27px,3.1cqw,43px);letter-spacing:-.04em;margin:0 0 22px;line-height:1.1}
+  :global(#kim-portfolio) .ke-work .project-copy .project-headline {font:italic clamp(28px,3.6cqw,49px)/1.08 Georgia,serif;letter-spacing:-.035em;margin:0 0 22px;color:var(--ink);max-width:15ch}
+  :global(#kim-portfolio) .ke-work .project-description {font-size:14px;line-height:1.75;color:var(--muted);margin:0 0 20px}
+  :global(#kim-portfolio) .ke-work .project-copy .ke-mono {display:block;font-size:11px;line-height:1.7}
+  :global(#kim-portfolio) .ke-work .project-links {margin-top:12px;display:flex;flex-wrap:wrap;gap:12px 24px}
+  @container(max-width:900px) {
+    :global(#kim-portfolio) .ke-work .project-slide {grid-template-columns:1fr;align-items:start}
+    :global(#kim-portfolio) .ke-work .project-copy .project-headline {max-width:24ch;font-size:clamp(30px,5.5cqw,44px)}
+  }
+</style>
