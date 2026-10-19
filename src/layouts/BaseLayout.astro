@@ -5,36 +5,114 @@ import '../styles/preferences.css';
 import '../styles/editorial.css';
 import '../styles/intro.css';
 import introBootstrap from '../scripts/intro-bootstrap.js?raw';
-interface Props { title?: string; description?: string; }
-const { title = 'Kim Maturan — Developer & Creative', description = 'The portfolio of Kim Maturan: aspiring software developer, founder, and creative. Explore software projects, experience, photography, and a little play.' } = Astro.props;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site) : undefined;
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = 'Kim Maturan | Software Developer & Creative Portfolio',
+  description = 'Explore Kim Maturan’s software projects, web applications, and photography. A Computer Science student building useful digital experiences.',
+  noindex = false,
+} = Astro.props;
+
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname, site);
+const portrait = new URL('/images/about-halftone.jpg', site);
+const isHome = Astro.url.pathname === '/';
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': new URL('/#person', site).href,
+  name: 'Kim Maturan',
+  url: site.href,
+  image: portrait.href,
+  description:
+    'Computer Science student, aspiring software developer, and creative.',
+  sameAs: [
+    'https://github.com/cookizuki',
+    'https://www.linkedin.com/in/kim-maturan-6b5331386/',
+  ],
+};
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <script is:inline>
       (() => {
         let theme;
-        try { theme = localStorage.getItem('kim-theme'); } catch {}
-        if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        try {
+          theme = localStorage.getItem('kim-theme');
+        } catch {}
+
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+        }
+
         document.documentElement.dataset.theme = theme;
         document.documentElement.style.colorScheme = theme;
       })();
     </script>
-    {Astro.url.pathname === "/" && <script is:inline set:html={introBootstrap} />}
+
+    {isHome && <script is:inline set:html={introBootstrap} />}
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="Kim Maturan" />
     <meta name="theme-color" content="#0b0b0d" />
+
+    {noindex && <meta name="robots" content="noindex" />}
+    {!noindex && <link rel="canonical" href={canonical.href} />}
+
+    <meta property="og:site_name" content="Kim Maturan Portfolio" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    {canonical && <link rel="canonical" href={canonical} />}
-    {canonical && <meta property="og:url" content={canonical} />}
-    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
-    <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-    <title>{title}</title>
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={portrait.href} />
+    <meta property="og:image:alt" content="Portrait of Kim Maturan" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={portrait.href} />
+    <meta name="twitter:image:alt" content="Portrait of Kim Maturan" />
+
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
+    <link
+      rel="icon"
+      href="/favicon-32.png"
+      type="image/png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      href="/favicon-16.png"
+      type="image/png"
+      sizes="16x16"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="/apple-touch-icon.png"
+      sizes="180x180"
+    />
+
+    {isHome && !noindex && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(person).replace(/</g, '\\u003c')}
+      />
+    )}
   </head>
   <body><slot /></body>
 </html>
