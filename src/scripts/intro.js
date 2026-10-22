@@ -1,4 +1,5 @@
-﻿// The head bootstrap owns the pre-paint state and independent recovery deadline.
+import { portraitFlight } from './portrait-flight.js';
+// The head bootstrap owns the pre-paint state and independent recovery deadline.
 (() => {
   const root = document.getElementById('kim-portfolio');
   if (!root) return;
@@ -20,12 +21,14 @@
   const supports = [root.querySelector('.ki-nav'), ...root.querySelectorAll('.ki-support')].filter(Boolean);
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sessionKey = 'kim-intro-seen';
+  let cancelFlight = () => {};
   let animations = [], timer, running = false, ownsInert = false;
 
   function finish(message = 'Landing page ready') {
     const restoreFocus = document.activeElement === skip;
     const completed = running && !message.includes('unavailable');
     running = false;
+    cancelFlight();
     bootstrap?.release();
     if (document.documentElement) delete document.documentElement.dataset.intro;
     if (ownsInert) {root.inert = false; root.removeAttribute('data-intro-inert'); ownsInert = false;}
@@ -54,16 +57,9 @@
     mark.style.visibility = 'visible';
     status.textContent = 'Playing intro';
     // Install the cleanup deadline before creating any effects.
-    timer = setTimeout(() => finish(), 2600);
+    timer = setTimeout(() => finish(), 3100);
     try {
       if (!root.inert) {ownsInert = true; root.inert = true; root.setAttribute('data-intro-inert', '');}
-      // Measure the actual layout before any transform; nothing is cloned or reparented.
-      const target = portrait.getBoundingClientRect();
-      const small = window.innerWidth < 700;
-      const dx = window.innerWidth / 2 - (target.left + target.width / 2);
-      const dy = window.innerHeight / 2 - (target.top + target.height / 2);
-      const clamp = (value, limit) => Math.max(-limit, Math.min(limit, value));
-      const origin = `translate(${small ? clamp(dx, 48) : dx}px,${small ? clamp(dy, 64) : dy}px)`;
       const ease = 'cubic-bezier(.22,1,.36,1)';
       const background = getComputedStyle(site).backgroundColor;
       const ink = getComputedStyle(name).color;
@@ -74,17 +70,10 @@
       animate(mark, [{opacity:1, transform:'none'}, {opacity:0, transform:'translateY(-8px)'}],
         {delay:400, duration:300, easing:'ease-in-out'});
 
-      // A growing dot mask reveals the real portrait. Its image retains the
-      // original transparent pixels, object positioning and soft bottom mask.
-      // The wrapper owns this temporary mask; no parent/child opacity doubling.
-      const mask = radius => `radial-gradient(circle, #000 ${radius}%, transparent ${radius + 1}%)`;
-      const frames = [{offset:0, opacity:0, transform:origin, maskImage:mask(0), maskSize:'8px 8px'}];
-      for (let step = 0; step <= 6; step++) {
-        frames.push({offset:(400 + step * 100) / 1900, opacity:Math.min(1, step / 2),
-          transform:origin, maskImage:mask(step * 17), maskSize:'8px 8px', easing:step === 6 ? ease : 'linear'});
-      }
-      frames.push({offset:1, opacity:1, transform:'translate(0,0)', maskImage:mask(100), maskSize:'8px 8px'});
-      animate(portrait, frames, {duration:1900, easing:'linear'});
+      // Draw actual image tiles through the scatter and reassembly, then hand
+      // back to the unchanged, responsive portrait element.
+      animate(portrait, [{opacity:0}, {opacity:1}], {delay:2400,duration:250});
+      cancelFlight = portraitFlight(portrait.querySelector('img'), document.querySelector('.intro-overlay'));
 
       // 1-1.9: typography arrives DURING portrait travel, preserving solid/outline styling.
       animate(name, [{opacity:0, clipPath:'inset(0 100% 0 0)', transform:'translateY(14px)'},
