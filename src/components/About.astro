@@ -1,51 +1,16 @@
 ---
 import { profile } from '../data/portfolio';
 ---
-<section class="ke-about about-scene" id="ke-about" aria-labelledby="about-heading">
-  <div class="about-landscape" aria-hidden="true">
-    <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#101218"/><stop offset="1" stop-color="#55585e"/></linearGradient>
-        <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><path d="M0 0V12" stroke="#d5d2c9" stroke-opacity=".15"/></pattern>
-      </defs>
-      <path fill="url(#sky)" d="M0 0h1600v1000H0z"/>
-      <g fill="none" stroke="#c8c6bc" stroke-opacity=".19">
-        {Array.from({length:12},(_,i)=><path d={`M-100 ${160+i*18} Q250 ${-120+i*27} 650 ${170+i*20} T1700 ${120+i*23}`} />)}
-      </g>
-      <circle cx="1210" cy="220" r="95" fill="#dedbd0"/>
-      <circle cx="1233" cy="203" r="92" fill="#292c32"/>
-      <g fill="#e5e1d6">{Array.from({length:46},(_,i)=><circle cx={(i*137+73)%1600} cy={(i*71+31)%460} r={i%3===0?1.8:1} opacity=".65"/>)}</g>
-      <path d="M0 650 200 390 365 575 550 310 830 650 1040 440 1280 610 1450 350 1600 560V1000H0Z" fill="#66696a"/>
-      <path d="m200 390 35 165-35-30-55 42Zm350-80 100 215-94-65-68 35Zm900 40 42 159-45-30-65 80Z" fill="#b5b6af"/>
-      <path d="M0 650 200 390 365 575 550 310 830 650 1040 440 1280 610 1450 350 1600 560V1000H0Z" fill="url(#hatch)"/>
-      <path d="M0 730Q200 540 440 700T890 680T1600 620V1000H0Z" fill="#353b3e"/>
-      <path d="M0 850Q400 650 800 820T1600 760V1000H0Z" fill="#1b2427"/>
-      <path d="M740 1000Q1030 880 900 800T1030 680Q900 780 970 820T1050 1000Z" fill="#a4a6a0" opacity=".55"/>
-      <g fill="#101719">{Array.from({length:18},(_,i)=>{const x=i<9?i*39:1240+(i-9)*45;const y=660+(i%4)*38;return <path d={`M${x} ${y-170}l-30 85h15l-40 80h40v55h30v-55h40l-40-80h15Z`}/>})}</g>
-      <path d="M0 945Q300 820 570 955T1600 910V1000H0Z" fill="#0b1113"/>
-    </svg>
-  </div>
-  <div class="about-scene-copy">
-    <span class="ke-mono">01 / THE HUMAN PART</span>
-    <h2 id="about-heading">ABOUT <em>ME.</em></h2>
-    <p class="about-motto">Focus on the goal. Appreciate the journey.</p>
-    <p class="about-bio">{profile.bio}</p>
-    <div class="about-interests"><span>Software</span><span>Photography &amp; design</span><span>Community</span></div>
-    {profile.resume && <div class="resume-links"><a class="ke-resume" href={profile.resume} target="_blank" rel="noopener noreferrer">View résumé ↗</a><a class="ke-resume" href={profile.resume} download>Download PDF ↓</a></div>}
+<section class="ke-about about-scroll scroll-scene" id="ke-about" aria-labelledby="about-heading" data-scroll-scene="about">
+  <div class="scene-stage about-stage">
+    <img class="about-background" src="/images/about-background.jpg" alt="" width="728" height="455" loading="lazy" aria-hidden="true" />
+    <div class="about-title"><span class="ke-mono">01 / THE HUMAN PART</span><h2 id="about-heading">ABOUT <em>ME.</em></h2><span class="scene-hint">SCROLL TO MEET THE PERSON ↓</span></div>
+    <div class="about-reveal">
+      <figure class="about-restored-portrait"><img src="/images/about-halftone.jpg" alt="Kim Maturan smiling, in black-and-white halftone" width="700" height="758" loading="lazy"/><figcaption>Behind the work. <strong>Kim Maturan</strong></figcaption></figure>
+      <div class="about-reveal-copy"><span class="ke-mono">KIM MATURAN / THE HUMAN PART</span><h3>Focus on the goal.<br/><em>Appreciate the journey.</em></h3><p>{profile.bio}</p>
+        <div class="about-interests"><span>Software development</span><span>Photography · Design · Video</span><span>Community &amp; leadership</span></div>
+        {profile.resume && <div class="resume-links"><a class="ke-resume" href={profile.resume} target="_blank" rel="noopener noreferrer">View résumé ↗</a><a class="ke-resume" href={profile.resume} download>Download PDF ↓</a></div>}
+      </div>
+    </div>
   </div>
 </section>
-<style>
-  :global(#kim-portfolio) .about-scene {display:grid;grid-template-columns:1fr;position:relative;isolation:isolate;overflow:hidden;min-height: min(900px,100svh);padding:clamp(72px,9vw,120px) 7%;text-align:center;color:#f4f1e9;background:#14191d}
-  .about-landscape {position:absolute;inset:0;z-index:-2}
-  .about-landscape svg {width:100%;height:100%;display:block}
-  .about-scene::after {content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.65),rgba(0,0,0,.1));z-index:-1}
-  .about-scene-copy {max-width:760px;margin:auto}
-  :global(#kim-portfolio) .about-scene h2 {font:700 clamp(64px,11cqw,150px)/.9 Arial,sans-serif;letter-spacing:-.07em;margin:30px 0;color:#f4f1e9}
-  :global(#kim-portfolio) .about-scene h2 em {font-family:Georgia,serif;font-weight:400}
-  :global(#kim-portfolio) .about-motto {font:italic clamp(19px,2.6cqw,30px)/1.4 Georgia,serif;color:#f4f1e9}
-  :global(#kim-portfolio) .about-bio {max-width:58ch;margin:24px auto;line-height:1.8;font-size:15px;color:#e0dfda}
-  .about-interests,.resume-links {display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px;margin-top:24px}
-  .about-interests {font:10px/1.6 monospace;text-transform:uppercase;letter-spacing:.12em}
-  :global(#kim-portfolio) .about-scene .ke-resume {color:#fff;border-bottom:1px solid #aaa;display:inline-flex;align-items:center;min-height:44px;margin:0;font-size:13px}
-  @media(max-width:600px) { :global(#kim-portfolio) .about-scene {min-height:100svh;padding:64px 7%} }
-</style>

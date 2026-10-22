@@ -1,0 +1,74 @@
+/* Native sticky scenes: ordinary page scrolling, no wheel interception. */
+#kim-portfolio .scroll-scene {position:relative}
+#kim-portfolio .scroll-scene .scene-stage {position:relative;box-sizing:border-box}
+#kim-portfolio .scroll-scene[data-scroll-ready] {padding:0;min-height:0;height:var(--scene-length,240svh);overflow:visible;display:block}
+#kim-portfolio .scroll-scene[data-scroll-ready] .scene-stage {position:sticky;top:var(--header-height,73px);height:calc(100svh - var(--header-height,73px));overflow:clip}
+#kim-portfolio .about-scroll {padding:0;display:block;background:#000;color:#f4f1e9}
+.about-stage {isolation:isolate;padding:64px 6%}
+.about-background {position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:-2}
+.about-stage::after {content:'';position:absolute;inset:0;background:#0004;z-index:-1;pointer-events:none}
+.about-title {text-align:center;padding:30px 0 50px}
+#kim-portfolio .about-title h2 {font:700 clamp(64px,11cqw,150px)/.9 Arial,sans-serif;letter-spacing:-.065em;margin:24px 0;color:#fff}
+.about-title em {font-family:Georgia,serif;font-weight:400}
+.scene-hint {font:10px/1.5 monospace;letter-spacing:.12em}
+.about-reveal {display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(24px,6vw,90px);align-items:center;max-width:1120px;margin:auto}
+.about-restored-portrait {margin:0;width:min(100%,360px);justify-self:center;transform:rotate(-3deg);background:#ecebe6;padding:12px;color:#171719;box-shadow:0 20px 70px #0008}
+.about-restored-portrait img {display:block;width:100%;height:auto;max-height:48svh;object-fit:contain}
+.about-restored-portrait figcaption {padding:12px 4px 4px;font:italic 18px Georgia,serif}
+.about-restored-portrait strong {display:block;font:11px/1.5 monospace;margin-top:5px}
+#kim-portfolio .about-reveal-copy h3 {font:400 clamp(28px,3.7cqw,54px)/1.1 Arial,sans-serif;letter-spacing:-.04em;margin:20px 0;color:#fff}
+.about-reveal-copy h3 em {font-family:Georgia,serif}
+#kim-portfolio .about-reveal-copy p {color:#e0dfda;line-height:1.8;font-size:15px;max-width:58ch}
+.about-interests {display:flex;flex-direction:column;gap:8px;font:11px/1.4 monospace;margin:24px 0}
+.resume-links {display:flex;flex-wrap:wrap;gap:12px 24px}
+#kim-portfolio .about-reveal .ke-resume {color:#fff;margin:0;min-height:44px;display:inline-flex;align-items:center;border-bottom:1px solid #aaa}
+.about-scroll[data-scroll-ready] .about-title {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0;pointer-events:none}
+.about-scroll[data-scroll-ready] .about-reveal {height:100%;opacity:0;clip-path:inset(100% 0 0);transform:translateY(50px)}
+#kim-portfolio .contribution-section[data-scroll-ready] {--scene-length:260svh}
+.experience-stage {padding:44px 5%}
+#kim-portfolio .contribution-section[data-scroll-ready] .experience-stage {display:flex;flex-direction:column;justify-content:space-between}
+#kim-portfolio .contribution-section[data-scroll-ready] h2 {font-size:clamp(28px,4cqw,52px);margin:20px 0}
+#kim-portfolio .contribution-section[data-scroll-ready] .contribution-carousel {min-height:0;display:flex;flex-direction:column;flex:1}
+#kim-portfolio .contribution-section[data-scroll-ready] .contribution-window {flex:1;min-height:0}
+#kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide {min-height:0;padding:16px 0}
+#kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide h3 {font-size:clamp(36px,6.8cqw,92px)}
+#kim-portfolio .contribution-section .ke-sectionline {color:inherit}
+#kim-portfolio .work-scroll[data-scroll-ready] {--scene-length:360svh}
+.work-stage {padding:36px 5%}
+#kim-portfolio .work-scroll[data-scroll-ready] .project-carousel {height:calc(100% - 30px);position:relative}
+#kim-portfolio .work-scroll[data-scroll-ready] .project-orbit {position:absolute;inset:0;margin:0;min-height:0;height:100%;max-height:none;overflow:clip}
+#kim-portfolio .work-scroll[data-scroll-ready] .project-selectors {width:100%;height:100%;max-width:none;inset:0;translate:none;border:0;border-radius:0;pointer-events:none}
+#kim-portfolio .work-scroll[data-scroll-ready] .project-selectors button {pointer-events:auto;max-width:none;will-change:transform;transition:box-shadow .2s}
+#kim-portfolio .work-scroll[data-scroll-ready] .project-selectors img {height:auto;aspect-ratio:16/10;object-fit:cover}
+#kim-portfolio .work-scroll[data-scroll-ready] .project-selectors button>span {font-size:clamp(11px,1.2cqw,16px)}
+.work-scroll-caption {display:flex;justify-content:space-between;gap:12px;position:absolute;bottom:0;left:0;right:0;font-size:12px;pointer-events:none}
+.work-scroll-caption [data-work-caption] {text-align:right}
+/* The project modal occupies the viewport; nested screenshot viewers still work. */
+#kim-portfolio dialog.project-fullscreen {position:fixed;inset:0;width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:70px clamp(16px,4vw,64px) 24px;border:0;background:var(--paper);color:var(--ink);overflow:auto;overscroll-behavior:contain}
+.project-fullscreen::backdrop {background:#000b}
+#kim-portfolio .project-fullscreen .orbit-back {position:fixed;top:12px;right:24px;z-index:3;min-height:44px;padding:8px 18px;border:1px solid var(--line);background:var(--paper)}
+#kim-portfolio .project-fullscreen .project-track {width:100%}
+#kim-portfolio .project-fullscreen .project-slide[data-peek="true"] {visibility:hidden}
+#kim-portfolio .project-fullscreen .project-slide[data-departing="true"] {visibility:visible}
+#kim-portfolio .project-carousel[data-overview] .project-fullscreen[open] .project-viewport {display:block!important}
+#kim-portfolio .project-carousel[data-overview] .project-fullscreen[open] .project-navigation {display:flex!important}
+#kim-portfolio .project-carousel[data-detail] .project-orbit {display:block}
+#kim-portfolio .project-fullscreen .project-slide {min-height:calc(100dvh - 180px)}
+@media(max-width:700px) {
+ .about-stage {padding:24px 6%}
+ .about-reveal {grid-template-columns:1fr;gap:20px;align-content:center}
+ .about-restored-portrait {width:145px;padding:7px;transform:rotate(-2deg)}
+ .about-restored-portrait figcaption {font-size:12px;padding:5px 2px 0}
+ .about-restored-portrait strong {font-size:9px;margin:2px 0}
+ #kim-portfolio .about-reveal-copy h3 {font-size:26px;margin:12px 0}
+ #kim-portfolio .about-reveal-copy p {font-size:13px;line-height:1.6}
+ .about-interests {margin:14px 0;font-size:10px;gap:4px}
+ .experience-stage,.work-stage {padding:24px 5%}
+ #kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide h3 {font-size:clamp(28px,8cqw,48px)}
+ .work-scroll-caption {font-size:10px;align-items:end}
+ #kim-portfolio .project-fullscreen .project-slide {min-height:0}
+}
+@media(prefers-reduced-motion:reduce),(max-height:700px) {
+ #kim-portfolio .scroll-scene[data-scroll-ready] {height:auto}
+ #kim-portfolio .scroll-scene[data-scroll-ready] .scene-stage {position:relative;top:auto;height:auto;overflow:visible}
+}

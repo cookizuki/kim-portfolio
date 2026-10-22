@@ -1,7 +1,8 @@
 ---
 import { experience } from '../data/portfolio';
 ---
-<section class="kx-section contribution-section" id="ke-experience" aria-labelledby="experience-heading">
+<section class="kx-section contribution-section scroll-scene" data-scroll-scene="experience" id="ke-experience" aria-labelledby="experience-heading">
+  <div class="scene-stage experience-stage">
   <div class="ke-sectionline"><span class="ke-mono">02 / EXPERIENCE</span><span class="ke-mono">ROLES / CONTRIBUTIONS / GROWTH</span></div>
   <h2 id="experience-heading">Where I’ve<br /><em>contributed.</em></h2>
   <div class="contribution-carousel" role="region" aria-roledescription="carousel" aria-label="Contributions" tabindex="0">
@@ -17,10 +18,11 @@ import { experience } from '../data/portfolio';
       <button type="button" data-role-step="1" aria-label="Next contribution">→</button>
     </div>
   </div>
+  </div>
 </section>
 <script>import '../scripts/contributions.js';</script>
 <style>
-  :global(#kim-portfolio) .contribution-section {padding-block:56px;background:var(--ink);color:var(--paper);overflow:hidden}
+  :global(#kim-portfolio) .contribution-section {padding-block:56px;background:var(--ink);color:var(--paper);overflow:visible}
   :global(#kim-portfolio) .contribution-section .ke-sectionline {border-color:currentColor;color:inherit;opacity:.75}
   :global(#kim-portfolio) .contribution-section h2 {font-size:clamp(32px,5cqw,66px);line-height:1;letter-spacing:-.05em;margin:40px 0 24px}
   .contribution-window {position:relative;touch-action:pan-y pinch-zoom}

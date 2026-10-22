@@ -2,20 +2,23 @@
 import ScreenshotCarousel from './ScreenshotCarousel.astro';
 import { projects } from '../data/portfolio';
 ---
-<section class="ke-work" id="ke-work" aria-labelledby="work-heading">
+<section class="ke-work work-scroll scroll-scene" data-scroll-scene="work" id="ke-work" aria-labelledby="work-heading">
+  <div class="scene-stage work-stage">
   <div class="ke-sectionline"><span class="ke-mono">03 / SELECTED WORK</span><span class="ke-mono">A FEW THINGS I’VE BUILT</span></div>
   <h2 id="work-heading" class="sr-only">Selected projects</h2>
   <div class="project-carousel" role="region" aria-roledescription="carousel" aria-label="Selected projects" tabindex="0">
     <div class="project-orbit" aria-label="Project overview">
       <div class="orbit-title"><span class="ke-mono">SELECTED</span><strong>WORK<span>’26</span></strong><span class="ke-mono">CHOOSE A PROJECT ↗</span></div>
       <div class="project-selectors" role="group" aria-label="Choose a project">
-        {projects.map((project, i) => <button type="button" data-project-select={i} aria-pressed="false" aria-controls={`project-slide-${i}`} style={`--angle:${i * 360/projects.length - 90}deg;--counter-angle:${90-i*360/projects.length}deg`}>
+        {projects.map((project, i) => <button type="button" data-project-select={i} data-project-name={project.name} aria-pressed="false" aria-controls={`project-slide-${i}`} style={`--angle:${i * 360/projects.length - 90}deg;--counter-angle:${90-i*360/projects.length}deg`}>
           {project.images[0]?.src && <img src={project.images[0].src} alt="" loading="lazy" width="260" height="160"/>}
           <span><small>0{i+1}</small>{project.name}<span aria-hidden="true">↗</span></span>
         </button>)}
       </div>
     </div>
-    <button type="button" class="orbit-back" hidden>← All projects</button>
+    <p class="work-scroll-caption"><span class="ke-mono">SCROLL TO EXPLORE ↓</span><span data-work-caption>Click any project to open full screen ↗</span></p>
+    <dialog class="project-fullscreen" aria-label="Project details" tabindex="-1">
+    <button type="button" class="orbit-back" hidden>Close project ×</button>
     <div class="project-viewport">
       <div class="project-track">
         {projects.map((project, i) => (
@@ -38,6 +41,8 @@ import { projects } from '../data/portfolio';
       <span class="project-counter" aria-live="polite" aria-atomic="true">PROJECT {projects.length ? '01' : '00'} / {String(projects.length).padStart(2, '0')}</span>
       <button type="button" data-project-step="1" disabled={projects.length < 2}><span class="action-inner">Next project</span></button>
     </div>
+    </dialog>
+  </div>
   </div>
 </section>
 <script>import '../scripts/project-carousel.js';</script>
