@@ -5,8 +5,40 @@
 #kim-portfolio .scroll-scene[data-scroll-ready] .scene-stage {position:sticky;top:var(--header-height,73px);height:calc(100svh - var(--header-height,73px));overflow:clip}
 #kim-portfolio .about-scroll {padding:0;display:block;background:#000;color:#f4f1e9}
 .about-stage {isolation:isolate;padding:64px 6%}
-.about-background {position:absolute;inset:0;width:100%;height:100%;object-fit:contain;z-index:-2}
-.about-stage::after {content:'';position:absolute;inset:0;background:#0004;z-index:-1;pointer-events:none}
+/* HD hands shared stage with exact image aspect ratio (600:257) */
+.about-hands {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-48.9%, -50%);
+  width: min(94vw, calc((90svh - 73px) * 600 / 257), 1200px);
+  aspect-ratio: 600 / 257;
+  pointer-events: none;
+  z-index: -2;
+}
+.about-hand {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: lighten;
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+/* Left layer: shows left hand, fading softly inside the black gap between fingertips */
+.about-hand-left {
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 48.6%, transparent 49.3%);
+  mask-image: linear-gradient(to right, #000 0%, #000 48.6%, transparent 49.3%);
+}
+/* Right layer: shows right hand, fading softly from the black gap between fingertips */
+.about-hand-right {
+  -webkit-mask-image: linear-gradient(to right, transparent 48.6%, #000 49.3%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 48.6%, #000 49.3%, #000 100%);
+}
+/* Gradient overlay ensures title and body copy stay readable */
+.about-overlay {position:absolute;inset:0;background:linear-gradient(to bottom,#0009 0%,#0005 55%,#000a 100%);z-index:-1;pointer-events:none}
 .about-title {text-align:center;padding:30px 0 50px}
 #kim-portfolio .about-title h2 {font:700 clamp(64px,11cqw,150px)/.9 Arial,sans-serif;letter-spacing:-.065em;margin:24px 0;color:#fff}
 .about-title em {font-family:Georgia,serif;font-weight:400}
@@ -31,7 +63,8 @@
 #kim-portfolio .contribution-section[data-scroll-ready] .contribution-carousel {min-height:0;display:flex;flex-direction:column;flex:1}
 #kim-portfolio .contribution-section[data-scroll-ready] .contribution-window {flex:1;min-height:0}
 #kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide {min-height:0;padding:16px 0}
-#kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide h3 {font-size:clamp(36px,6.8cqw,92px)}
+/* contribution-title capped to avoid overlap with heading/number/controls */
+#kim-portfolio .contribution-section[data-scroll-ready] .contribution-title {font-size:clamp(26px,5cqw,62px)}
 #kim-portfolio .contribution-section .ke-sectionline {color:inherit}
 #kim-portfolio .work-scroll[data-scroll-ready] {--scene-length:600svh}
 .work-stage {padding:36px 5%}
@@ -64,9 +97,14 @@
  #kim-portfolio .about-reveal-copy p {font-size:13px;line-height:1.6}
  .about-interests {margin:14px 0;font-size:10px;gap:4px}
  .experience-stage,.work-stage {padding:24px 5%}
- #kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide h3 {font-size:clamp(28px,8cqw,48px)}
+ #kim-portfolio .contribution-section[data-scroll-ready] .contribution-title {font-size:clamp(22px,7cqw,44px)}
  .work-scroll-caption {font-size:10px;align-items:end}
  #kim-portfolio .project-fullscreen .project-slide {min-height:0}
+}
+/* prefers-reduced-motion: show hands settled at edges, no animation */
+@media (prefers-reduced-motion: reduce) {
+  .about-hand-left  {transform:translateX(-40%) !important;opacity:.2 !important}
+  .about-hand-right {transform:translateX(40%) !important;opacity:.2 !important}
 }
 @media(prefers-reduced-motion:reduce) {
  #kim-portfolio .scroll-scene[data-scroll-ready] {height:auto}
@@ -77,12 +115,11 @@
 #kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-orbit .project-selectors {inset:0;left:0;top:0;translate:none;width:100%;height:100%;max-width:none;border:0;border-radius:0}
 #kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-orbit .project-selectors button {left:50%;top:50%;transition:none}
 #kim-portfolio .about-scroll[data-scroll-ready] .about-stage {padding:clamp(16px,4vh,48px) 6%}
-#kim-portfolio .about-scroll[data-scroll-ready] .about-background {object-fit:cover;will-change:transform,clip-path}
-#kim-portfolio .about-scroll[data-scroll-ready] .about-reveal {max-height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+/* overflow:auto removed - it created a nested scroll container that trapped wheel/touch events */
+#kim-portfolio .about-scroll[data-scroll-ready] .about-reveal {max-height:100%;overflow:visible}
 #kim-portfolio .about-scroll[data-scroll-ready] .about-restored-portrait {width:min(100%,320px)}
 @media(max-width:700px) {
- #kim-portfolio .about-scroll[data-scroll-ready] .about-background {object-fit:contain;min-width:100%}
- #kim-portfolio .about-scroll[data-scroll-ready] .about-restored-portrait {width:135px}
+  #kim-portfolio .about-scroll[data-scroll-ready] .about-restored-portrait {width:135px}
  #kim-portfolio .about-scroll[data-scroll-ready] .about-reveal {align-content:start;padding:10px 0}
 }
 @media(min-width:701px) and (max-height:740px) {
@@ -91,7 +128,7 @@
  .about-interests {margin:12px 0}
  #kim-portfolio .contribution-section[data-scroll-ready] h2 {font-size:30px;margin:8px 0}
  .experience-stage {padding:20px 5%}
- #kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide h3 {font-size:clamp(32px,5cqw,68px)}
+ #kim-portfolio .contribution-section[data-scroll-ready] .contribution-title {font-size:clamp(24px,4.5cqw,58px)}
 }
 
 #kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-orbit .project-selectors button {scale:1;transform-origin:center}

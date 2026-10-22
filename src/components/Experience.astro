@@ -4,12 +4,18 @@ import { experience } from '../data/portfolio';
 <section class="kx-section contribution-section scroll-scene" data-scroll-scene="experience" id="ke-experience" aria-labelledby="experience-heading">
   <div class="scene-stage experience-stage">
   <div class="ke-sectionline"><span class="ke-mono">02 / EXPERIENCE</span><span class="ke-mono">ROLES / CONTRIBUTIONS / GROWTH</span></div>
-  <h2 id="experience-heading">Where I’ve<br /><em>contributed.</em></h2>
+  <h2 id="experience-heading">Where I've<br /><em>contributed.</em></h2>
   <div class="contribution-carousel" role="region" aria-roledescription="carousel" aria-label="Contributions" tabindex="0">
     <div class="contribution-window">
       {experience.map((item,i)=><article class="contribution-slide" aria-label={`${i+1} of ${experience.length}`} role="group" aria-roledescription="slide">
         <span class="contribution-number" aria-hidden="true">0{i+1}</span>
-        <div><span class="ke-mono">{item.type}</span><h3>{item.role}</h3>{item.organization && <p>{item.organization}</p>}{item.dates && <span>{item.dates}</span>}{item.description && <p>{item.description}</p>}</div>
+        <div>
+          <span class="ke-mono contribution-type">{item.type}</span>
+          <h3 class="contribution-title">{item.role}</h3>
+          {item.subtitle && <p class="contribution-subtitle"><em>{item.subtitle}</em></p>}
+          {item.dates && <span>{item.dates}</span>}
+          {item.description && <p>{item.description}</p>}
+        </div>
       </article>)}
     </div>
     <div class="contribution-controls" hidden>
@@ -28,12 +34,30 @@ import { experience } from '../data/portfolio';
   .contribution-window {position:relative;touch-action:pan-y pinch-zoom}
   .contribution-slide {position:relative;min-width:0;padding:40px 0}
   .contribution-carousel[data-ready] .contribution-window {display:grid;overflow:hidden}
-  .contribution-carousel[data-ready] .contribution-slide {grid-area:1/1;display:flex;align-items:center;min-height:clamp(320px,34cqw,460px)}
+  .contribution-carousel[data-ready] .contribution-slide {grid-area:1/1;display:flex;align-items:center;min-height:clamp(280px,32cqw,420px)}
   .contribution-slide[aria-hidden="true"] {visibility:hidden;pointer-events:none}
   .contribution-slide[data-leaving] {visibility:visible}
-  .contribution-number {position:absolute;right:0;top:0;font:700 clamp(190px,30cqw,410px)/1 Arial,sans-serif;opacity:.07;pointer-events:none}
-  :global(#kim-portfolio) .contribution-slide h3 {position:relative;font:700 clamp(38px,7.3cqw,100px)/.98 Arial,sans-serif;letter-spacing:-.055em;text-transform:uppercase;max-width:18ch;margin:22px 0;overflow-wrap:anywhere}
-  :global(#kim-portfolio) .contribution-slide p {color:inherit;opacity:.8;font:italic clamp(18px,2.4cqw,28px)/1.5 Georgia,serif}
+  .contribution-number {position:absolute;right:0;top:0;font:700 clamp(140px,22cqw,320px)/1 Arial,sans-serif;opacity:.07;pointer-events:none}
+  /* Type label */
+  .contribution-type {display:block;margin-bottom:10px}
+  /* Title: capped so it never overflows or overlaps */
+  :global(#kim-portfolio) .contribution-title {
+    position:relative;
+    font:700 clamp(28px,5cqw,64px)/.98 Arial,sans-serif;
+    letter-spacing:-.045em;
+    text-transform:uppercase;
+    max-width:20ch;
+    margin:8px 0 12px;
+    overflow-wrap:anywhere;
+  }
+  /* Italic serif subtitle, same style as the Founder "KNR Collectives" paragraph */
+  :global(#kim-portfolio) .contribution-subtitle {
+    color:inherit;
+    opacity:.8;
+    font:italic clamp(16px,2.1cqw,24px)/1.5 Georgia,serif;
+    margin:0 0 8px;
+  }
+  :global(#kim-portfolio) .contribution-slide p:not(.contribution-subtitle) {color:inherit;opacity:.8;font:italic clamp(16px,2.1cqw,24px)/1.5 Georgia,serif}
   .contribution-controls {display:flex;align-items:center;justify-content:space-between;border-top:1px solid currentColor;padding-top:20px}
   .contribution-controls[hidden] {display:none}
   .contribution-controls button {border:1px solid currentColor;border-radius:50%;width:54px;height:54px;background:transparent;color:inherit;font-size:24px;cursor:pointer}

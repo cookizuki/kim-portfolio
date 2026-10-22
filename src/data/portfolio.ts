@@ -71,9 +71,9 @@ export const projects: Project[] = [
 ], liveUrl: 'https://pina-call.vercel.app', codeUrl: null, contribution: null },
 ];
 export const experience = [
-  { role: 'Founder', organization: 'KNR Collectives', type: 'Entrepreneurship', dates: '', description: '' },
-  { role: 'Co-Lead & Executive Assistant', organization: 'AWS SBG · University of Cabuyao', type: 'Student leadership', dates: '', description: '' },
-  { role: 'Graphic Designer & Video Editor', organization: '', type: 'Creative work', dates: '', description: '' },
+  { role: 'Founder', subtitle: 'KNR Collectives', organization: '', type: 'Entrepreneurship', dates: '', description: '' },
+  { role: 'Co-Lead & Executive Assistant', subtitle: 'AWS SBG · University of Cabuyao', organization: '', type: 'Student leadership', dates: '', description: '' },
+  { role: 'Graphic Designer & Video Editor', subtitle: '', organization: '', type: 'Creative work', dates: '', description: '' },
 ];
 export const certifications = [
   { title: 'AWS AI Practitioner Challenge', date: '2026-06-23', dateLabel: 'June 23, 2026', issuer: '', verificationUrl: 'https://www.udacity.com/certificate/e/51a17c90-2998-11f1-aa43-2fbe0600f13b' as string | null },

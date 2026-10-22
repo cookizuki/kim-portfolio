@@ -17,7 +17,8 @@ function render() {
     const progress=clamp((top-rect.top)/distance);
     scene.dataset.progress=String(progress);
     if(scene.dataset.scrollScene==='about') {
-      const title=scene.querySelector('.about-title'),panel=scene.querySelector('.about-reveal'),background=scene.querySelector('.about-background');
+      const title=scene.querySelector('.about-title'),panel=scene.querySelector('.about-reveal');
+      const handL=scene.querySelector('.about-hand-left'),handR=scene.querySelector('.about-hand-right');
       // First reveal the entire scene through an opening iris, then hold the
       // centered title before moving into the restored portrait composition.
       const entrance=clamp(progress/.28);
@@ -29,9 +30,21 @@ function render() {
       panel.style.clipPath=`inset(${(1-reveal)*100}% 0 0)`;
       panel.style.transform=`translateY(${(1-reveal)*80}px)`;
       panel.inert=enabled&&reveal<.15;
-      background.style.clipPath=enabled?`circle(${mix(6,85,entrance)}% at 50% 50%)`:'none';
-      background.style.transform=enabled?`scale(${mix(1.45,1,clamp(progress/.65))}) translateY(${-progress*25}px)`:'none';
-      background.style.opacity=String(enabled?1-reveal*.7:.35);
+      // HD hands: touching at progress 0, spread apart to edges as content reveals.
+      // handShift goes 0→1 over the reveal window; ease out with sqrt for naturalness.
+      if(handL&&handR) {
+        const handShift=enabled?Math.sqrt(clamp(progress/.84)):1;
+        // At handShift=0 hands sit together (tx=0); at 1 they settle at the edges (tx=40%).
+        const tx=handShift*40;
+        // Opacity: full (1.0) at progress 0, dimming to ~0.2 as content is revealed.
+        const handOpacity=enabled?mix(1,.2,handShift):.2;
+        const handScale=enabled?mix(1,.95,handShift):.95;
+        // Left hand moves LEFT (negative X), right hand moves RIGHT (positive X).
+        handL.style.transform=`translateX(-${tx}%) scale(${handScale})`;
+        handR.style.transform=`translateX(${tx}%) scale(${handScale})`;
+        handL.style.opacity=String(handOpacity);
+        handR.style.opacity=String(handOpacity);
+      }
       scene.querySelector('.about-restored-portrait').style.transform=`rotate(${mix(-12,-3,reveal)}deg) scale(${mix(.85,1,reveal)})`;
     }
     if(scene.dataset.scrollScene==='experience') scene.dispatchEvent(new CustomEvent('scene:progress',{detail:{progress,enabled}}));

@@ -3,7 +3,22 @@ import { profile } from '../data/portfolio';
 ---
 <section class="ke-about about-scroll scroll-scene" id="ke-about" aria-labelledby="about-heading" data-scroll-scene="about">
   <div class="scene-stage about-stage">
-    <img class="about-background" src="/images/about-background.jpg" alt="" width="728" height="455" loading="lazy" aria-hidden="true" />
+    <!-- HD hands: two blended layers sharing one stage; animated by scroll-scenes.js -->
+    <div class="about-hands" aria-hidden="true">
+      <img class="about-hand about-hand-left"
+           src="/images/about-hands-hd.jpg"
+           alt=""
+           width="600" height="257"
+           decoding="async"
+           loading="lazy" />
+      <img class="about-hand about-hand-right"
+           src="/images/about-hands-hd.jpg"
+           alt=""
+           width="600" height="257"
+           decoding="async"
+           loading="lazy" />
+    </div>
+    <div class="about-overlay" aria-hidden="true"></div>
     <div class="about-title"><span class="ke-mono">01 / THE HUMAN PART</span><h2 id="about-heading">ABOUT <em>ME.</em></h2><span class="scene-hint">SCROLL TO MEET THE PERSON ↓</span></div>
     <div class="about-reveal">
       <figure class="about-restored-portrait"><img src="/images/about-halftone.jpg" alt="Kim Maturan smiling, in black-and-white halftone" width="700" height="758" loading="lazy"/><figcaption>Behind the work. <strong>Kim Maturan</strong></figcaption></figure>
