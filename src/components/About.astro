@@ -1,45 +1,51 @@
 ---
 import { profile } from '../data/portfolio';
 ---
-<section class="ke-about" id="ke-about" aria-labelledby="about-heading">
-  <figure class="about-portrait"><div class="ke-portrait kim-about-photo"><img src="/images/about-halftone.jpg" alt="Kim Maturan smiling, in black-and-white halftone" width="700" height="758" loading="lazy" /></div><figcaption><span>Behind the work.</span><strong>Kim Maturan</strong></figcaption></figure>
-  <div class="about-copy"><span class="ke-mono">01 / THE HUMAN PART</span><h2 id="about-heading">Focus on the goal.<br /><em>Appreciate the journey.</em></h2><p>{profile.bio}</p>
-    <ol class="about-roles">
-      <li><span class="ke-mono">01</span><div><h3>Building useful things</h3><p>Software development &#183; Founder, KNR Collectives</p></div></li>
-      <li><span class="ke-mono">02</span><div><h3>Seeing the details</h3><p>Photography &#183; Graphic design &#183; Video editing</p></div></li>
-      <li><span class="ke-mono">03</span><div><h3>Growing with a community</h3><p>Co-Lead &amp; Executive Assistant &#183; AWS SBG</p></div></li>
-    </ol>
-    {profile.resume && <div class="resume-links">
-      <a class="ke-resume" href={profile.resume} target="_blank" rel="noopener noreferrer">View r&#233;sum&#233; <span class="action-arrow" aria-hidden="true">&#8599;</span></a>
-      <a class="ke-resume resume-download" href={profile.resume} download>Download PDF <span class="action-arrow" aria-hidden="true">&#8595;</span></a>
-    </div>}
+<section class="ke-about about-scene" id="ke-about" aria-labelledby="about-heading">
+  <div class="about-landscape" aria-hidden="true">
+    <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#101218"/><stop offset="1" stop-color="#55585e"/></linearGradient>
+        <pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(25)"><path d="M0 0V12" stroke="#d5d2c9" stroke-opacity=".15"/></pattern>
+      </defs>
+      <path fill="url(#sky)" d="M0 0h1600v1000H0z"/>
+      <g fill="none" stroke="#c8c6bc" stroke-opacity=".19">
+        {Array.from({length:12},(_,i)=><path d={`M-100 ${160+i*18} Q250 ${-120+i*27} 650 ${170+i*20} T1700 ${120+i*23}`} />)}
+      </g>
+      <circle cx="1210" cy="220" r="95" fill="#dedbd0"/>
+      <circle cx="1233" cy="203" r="92" fill="#292c32"/>
+      <g fill="#e5e1d6">{Array.from({length:46},(_,i)=><circle cx={(i*137+73)%1600} cy={(i*71+31)%460} r={i%3===0?1.8:1} opacity=".65"/>)}</g>
+      <path d="M0 650 200 390 365 575 550 310 830 650 1040 440 1280 610 1450 350 1600 560V1000H0Z" fill="#66696a"/>
+      <path d="m200 390 35 165-35-30-55 42Zm350-80 100 215-94-65-68 35Zm900 40 42 159-45-30-65 80Z" fill="#b5b6af"/>
+      <path d="M0 650 200 390 365 575 550 310 830 650 1040 440 1280 610 1450 350 1600 560V1000H0Z" fill="url(#hatch)"/>
+      <path d="M0 730Q200 540 440 700T890 680T1600 620V1000H0Z" fill="#353b3e"/>
+      <path d="M0 850Q400 650 800 820T1600 760V1000H0Z" fill="#1b2427"/>
+      <path d="M740 1000Q1030 880 900 800T1030 680Q900 780 970 820T1050 1000Z" fill="#a4a6a0" opacity=".55"/>
+      <g fill="#101719">{Array.from({length:18},(_,i)=>{const x=i<9?i*39:1240+(i-9)*45;const y=660+(i%4)*38;return <path d={`M${x} ${y-170}l-30 85h15l-40 80h40v55h30v-55h40l-40-80h15Z`}/>})}</g>
+      <path d="M0 945Q300 820 570 955T1600 910V1000H0Z" fill="#0b1113"/>
+    </svg>
+  </div>
+  <div class="about-scene-copy">
+    <span class="ke-mono">01 / THE HUMAN PART</span>
+    <h2 id="about-heading">ABOUT <em>ME.</em></h2>
+    <p class="about-motto">Focus on the goal. Appreciate the journey.</p>
+    <p class="about-bio">{profile.bio}</p>
+    <div class="about-interests"><span>Software</span><span>Photography &amp; design</span><span>Community</span></div>
+    {profile.resume && <div class="resume-links"><a class="ke-resume" href={profile.resume} target="_blank" rel="noopener noreferrer">View résumé ↗</a><a class="ke-resume" href={profile.resume} download>Download PDF ↓</a></div>}
   </div>
 </section>
-
 <style>
-  :global(#kim-portfolio) .ke-about {grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,7cqw,100px);padding-block:clamp(64px,7cqw,100px);align-items:center}
-  .about-portrait {position:relative;min-width:0;margin:0;padding:16px 24px 40px 8px}
-  :global(#kim-portfolio) .about-portrait .kim-about-photo {min-height:0;margin:0;padding:12px;background:var(--surface);border:1px solid var(--line);transform:rotate(-3deg);box-shadow:0 16px 40px rgb(0 0 0 / .12)}
-  :global(#kim-portfolio) .about-portrait img {display:block;width:100%;height:auto;object-fit:contain;filter:none}
-  .about-portrait figcaption {position:absolute;right:0;bottom:12px;max-width:80%;padding:16px 22px;background:var(--paper);color:var(--ink);border:1px solid var(--line);box-shadow:0 6px 18px rgb(0 0 0 / .06);transform:rotate(2deg)}
-  .about-portrait figcaption span {display:block;font:italic 22px/1.25 Georgia,serif}
-  .about-portrait figcaption strong {display:block;margin-top:8px;font:11px/1.5 monospace;letter-spacing:.06em}
-  .about-copy {min-width:0}
-  :global(#kim-portfolio) .about-copy h2 {font-size:clamp(32px,4.3cqw,60px);line-height:1.06;letter-spacing:-.04em;margin:24px 0}
-  .about-copy > p {line-height:1.8;color:var(--muted);max-width:58ch}
-  .about-roles {list-style:none;margin:28px 0 20px;padding:0}
-  .about-roles li {display:grid;grid-template-columns:26px minmax(0,1fr);gap:14px;border-top:1px solid var(--line);padding:15px 0}
-  .about-roles li:last-child {border-bottom:1px solid var(--line)}
-  .about-roles .ke-mono {padding-top:3px;color:var(--muted)}
-  :global(#kim-portfolio) .about-roles h3 {font-size:15px;font-weight:500;line-height:1.4;margin:0 0 4px}
-  :global(#kim-portfolio) .about-roles p {font-size:12px;line-height:1.6;margin:0;color:var(--muted)}
-  :global(#kim-portfolio) .resume-links {display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;margin-top:12px}
-  :global(#kim-portfolio) .resume-links .ke-resume {display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:0;font-size:13px}
-  :global(#kim-portfolio) .resume-links .resume-download {color:var(--muted);font-size:12px}
-  @container(max-width:800px) {
-    :global(#kim-portfolio) .ke-about {grid-template-columns:1fr;gap:32px}
-    .about-portrait {width:min(100%,420px);justify-self:center;padding:10px 20px 38px 10px}
-    :global(#kim-portfolio) .about-portrait .kim-about-photo {transform:rotate(-1.5deg)}
-    :global(#kim-portfolio) .about-copy h2 {font-size:clamp(32px,7cqw,50px)}
-  }
+  :global(#kim-portfolio) .about-scene {display:grid;grid-template-columns:1fr;position:relative;isolation:isolate;overflow:hidden;min-height: min(900px,100svh);padding:clamp(72px,9vw,120px) 7%;text-align:center;color:#f4f1e9;background:#14191d}
+  .about-landscape {position:absolute;inset:0;z-index:-2}
+  .about-landscape svg {width:100%;height:100%;display:block}
+  .about-scene::after {content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.65),rgba(0,0,0,.1));z-index:-1}
+  .about-scene-copy {max-width:760px;margin:auto}
+  :global(#kim-portfolio) .about-scene h2 {font:700 clamp(64px,11cqw,150px)/.9 Arial,sans-serif;letter-spacing:-.07em;margin:30px 0;color:#f4f1e9}
+  :global(#kim-portfolio) .about-scene h2 em {font-family:Georgia,serif;font-weight:400}
+  :global(#kim-portfolio) .about-motto {font:italic clamp(19px,2.6cqw,30px)/1.4 Georgia,serif;color:#f4f1e9}
+  :global(#kim-portfolio) .about-bio {max-width:58ch;margin:24px auto;line-height:1.8;font-size:15px;color:#e0dfda}
+  .about-interests,.resume-links {display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px;margin-top:24px}
+  .about-interests {font:10px/1.6 monospace;text-transform:uppercase;letter-spacing:.12em}
+  :global(#kim-portfolio) .about-scene .ke-resume {color:#fff;border-bottom:1px solid #aaa;display:inline-flex;align-items:center;min-height:44px;margin:0;font-size:13px}
+  @media(max-width:600px) { :global(#kim-portfolio) .about-scene {min-height:100svh;padding:64px 7%} }
 </style>

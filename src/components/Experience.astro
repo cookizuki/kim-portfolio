@@ -1,8 +1,39 @@
 ---
 import { experience } from '../data/portfolio';
 ---
-<section class="kx-section" id="ke-experience" aria-labelledby="experience-heading">
-  <div class="ke-sectionline"><span class="ke-mono">04 / EXPERIENCE</span><span class="ke-mono">ROLES / CONTRIBUTIONS / GROWTH</span></div>
-  <div class="kx-heading"><h2 id="experience-heading">Where I’ve contributed.<br /><em>What I’ve learned.</em></h2></div>
-  <div class="kx-timeline">{experience.map(item => <article class="kx-entry"><div class="kx-date">{item.dates && <span class="ke-mono">{item.dates}</span>}<span class="kx-type">{item.type}</span></div><div class="kx-description"><h3>{item.role}</h3>{item.organization && <span class="kx-org">{item.organization}</span>}{item.description && <p>{item.description}</p>}</div></article>)}</div>
+<section class="kx-section contribution-section" id="ke-experience" aria-labelledby="experience-heading">
+  <div class="ke-sectionline"><span class="ke-mono">02 / EXPERIENCE</span><span class="ke-mono">ROLES / CONTRIBUTIONS / GROWTH</span></div>
+  <h2 id="experience-heading">Where I’ve<br /><em>contributed.</em></h2>
+  <div class="contribution-carousel" role="region" aria-roledescription="carousel" aria-label="Contributions" tabindex="0">
+    <div class="contribution-window">
+      {experience.map((item,i)=><article class="contribution-slide" aria-label={`${i+1} of ${experience.length}`} role="group" aria-roledescription="slide">
+        <span class="contribution-number" aria-hidden="true">0{i+1}</span>
+        <div><span class="ke-mono">{item.type}</span><h3>{item.role}</h3>{item.organization && <p>{item.organization}</p>}{item.dates && <span>{item.dates}</span>}{item.description && <p>{item.description}</p>}</div>
+      </article>)}
+    </div>
+    <div class="contribution-controls" hidden>
+      <button type="button" data-role-step="-1" aria-label="Previous contribution">←</button>
+      <span class="ke-mono" data-role-count aria-live="polite" aria-atomic="true">01 / {String(experience.length).padStart(2,'0')}</span>
+      <button type="button" data-role-step="1" aria-label="Next contribution">→</button>
+    </div>
+  </div>
 </section>
+<script>import '../scripts/contributions.js';</script>
+<style>
+  :global(#kim-portfolio) .contribution-section {padding-block:56px;background:var(--ink);color:var(--paper);overflow:hidden}
+  :global(#kim-portfolio) .contribution-section .ke-sectionline {border-color:currentColor;color:inherit;opacity:.75}
+  :global(#kim-portfolio) .contribution-section h2 {font-size:clamp(32px,5cqw,66px);line-height:1;letter-spacing:-.05em;margin:40px 0 24px}
+  .contribution-window {position:relative;touch-action:pan-y pinch-zoom}
+  .contribution-slide {position:relative;min-width:0;padding:40px 0}
+  .contribution-carousel[data-ready] .contribution-window {display:grid;overflow:hidden}
+  .contribution-carousel[data-ready] .contribution-slide {grid-area:1/1;display:flex;align-items:center;min-height:clamp(320px,34cqw,460px)}
+  .contribution-slide[aria-hidden="true"] {visibility:hidden;pointer-events:none}
+  .contribution-slide[data-leaving] {visibility:visible}
+  .contribution-number {position:absolute;right:0;top:0;font:700 clamp(190px,30cqw,410px)/1 Arial,sans-serif;opacity:.07;pointer-events:none}
+  :global(#kim-portfolio) .contribution-slide h3 {position:relative;font:700 clamp(38px,7.3cqw,100px)/.98 Arial,sans-serif;letter-spacing:-.055em;text-transform:uppercase;max-width:18ch;margin:22px 0;overflow-wrap:anywhere}
+  :global(#kim-portfolio) .contribution-slide p {color:inherit;opacity:.8;font:italic clamp(18px,2.4cqw,28px)/1.5 Georgia,serif}
+  .contribution-controls {display:flex;align-items:center;justify-content:space-between;border-top:1px solid currentColor;padding-top:20px}
+  .contribution-controls[hidden] {display:none}
+  .contribution-controls button {border:1px solid currentColor;border-radius:50%;width:54px;height:54px;background:transparent;color:inherit;font-size:24px;cursor:pointer}
+  .contribution-controls button:hover {background:var(--paper);color:var(--ink)}
+</style>

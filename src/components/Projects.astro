@@ -3,12 +3,19 @@ import ScreenshotCarousel from './ScreenshotCarousel.astro';
 import { projects } from '../data/portfolio';
 ---
 <section class="ke-work" id="ke-work" aria-labelledby="work-heading">
-  <div class="ke-sectionline"><span class="ke-mono">02 / SELECTED WORK</span><span class="ke-mono">A FEW THINGS I’VE BUILT</span></div>
+  <div class="ke-sectionline"><span class="ke-mono">03 / SELECTED WORK</span><span class="ke-mono">A FEW THINGS I’VE BUILT</span></div>
   <h2 id="work-heading" class="sr-only">Selected projects</h2>
   <div class="project-carousel" role="region" aria-roledescription="carousel" aria-label="Selected projects" tabindex="0">
-    <div class="project-selectors" role="group" aria-label="Choose a project">
-      {projects.map((project, i) => <button type="button" data-project-select={i} aria-pressed={i === 0} aria-controls={`project-slide-${i}`}>{project.name}</button>)}
+    <div class="project-orbit" aria-label="Project overview">
+      <div class="orbit-title"><span class="ke-mono">SELECTED</span><strong>WORK<span>’26</span></strong><span class="ke-mono">CHOOSE A PROJECT ↗</span></div>
+      <div class="project-selectors" role="group" aria-label="Choose a project">
+        {projects.map((project, i) => <button type="button" data-project-select={i} aria-pressed="false" aria-controls={`project-slide-${i}`} style={`--angle:${i * 360/projects.length - 90}deg;--counter-angle:${90-i*360/projects.length}deg`}>
+          {project.images[0]?.src && <img src={project.images[0].src} alt="" loading="lazy" width="260" height="160"/>}
+          <span><small>0{i+1}</small>{project.name}<span aria-hidden="true">↗</span></span>
+        </button>)}
+      </div>
     </div>
+    <button type="button" class="orbit-back" hidden>← All projects</button>
     <div class="project-viewport">
       <div class="project-track">
         {projects.map((project, i) => (
@@ -46,4 +53,32 @@ import { projects } from '../data/portfolio';
     :global(#kim-portfolio) .ke-work .project-slide {grid-template-columns:1fr;align-items:start}
     :global(#kim-portfolio) .ke-work .project-copy .project-headline {max-width:24ch;font-size:clamp(30px,5.5cqw,44px)}
   }
+</style>
+
+<style>
+  .project-orbit {position:relative;min-height:660px;height:min(78svh,720px);margin:20px 0}
+  .orbit-title {position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;pointer-events:none}
+  .orbit-title > .ke-mono:last-child {position:absolute;bottom:8px}
+  .orbit-title strong {font:700 clamp(36px,5cqw,64px)/.9 Arial,sans-serif;letter-spacing:-.06em;text-align:center}
+  .orbit-title strong span {display:block;font:italic 44px/1 Georgia,serif}
+  :global(#kim-portfolio) .project-orbit .project-selectors {position:absolute;inset:0;display:block;margin:0;border:1px solid var(--line);border-radius:50%;width:480px;height:480px;max-width:80%;left:50%;top:50%;translate:-50% -50%}
+  :global(#kim-portfolio) .project-orbit .project-selectors button {position:absolute;top:50%;left:50%;width:clamp(150px,20cqw,230px);padding:8px;background:var(--paper);color:var(--ink);border:1px solid var(--line);transform:translate(-50%,-50%) rotate(var(--angle)) translateX(240px) rotate(var(--counter-angle)) rotate(-6deg);transition:box-shadow .25s,scale .25s;box-shadow:0 12px 30px #0002}
+  :global(#kim-portfolio) .project-orbit .project-selectors button:hover,:global(#kim-portfolio) .project-orbit .project-selectors button:focus-visible {scale:1.04;box-shadow:0 18px 45px #0004;z-index:2}
+  .project-selectors img {width:100%;height:clamp(90px,12cqw,135px);object-fit:cover;object-position:top;display:block;filter:grayscale(1)}
+  .project-selectors button:hover img {filter:none}
+  .project-selectors button>span {display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 4px 4px;font-size:12px}
+  .project-selectors small {font:10px monospace;opacity:.5}
+  .orbit-back {min-height:44px;background:none;border:0;color:var(--ink);cursor:pointer;margin-bottom:16px}
+  .project-carousel[data-overview] .project-viewport,.project-carousel[data-overview] .project-navigation {display:none!important}
+  .project-carousel[data-detail] .project-orbit {display:none}
+  @container(max-width:700px) {
+    .project-orbit {min-height:490px;height:65svh;max-height:560px}
+    :global(#kim-portfolio) .project-orbit .project-selectors {width:280px;height:280px}
+    :global(#kim-portfolio) .project-orbit .project-selectors button {width:clamp(100px,29cqw,160px);transform:translate(-50%,-50%) rotate(var(--angle)) translateX(clamp(95px,32cqw,135px)) rotate(var(--counter-angle)) rotate(-6deg)}
+    .project-selectors button>span {font-size:10px;gap:4px}
+    .orbit-title > .ke-mono:last-child {position:absolute;bottom:8px}
+  .orbit-title strong {font-size:clamp(20px,6.5cqw,26px)}.orbit-title .ke-mono {font-size:8px}
+    .orbit-title {gap:12px}
+  }
+  @media(prefers-reduced-motion:reduce) { :global(#kim-portfolio) .project-orbit .project-selectors button {transition:none} }
 </style>

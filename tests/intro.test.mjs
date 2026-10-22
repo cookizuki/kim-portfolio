@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
-const source = readFileSync(new URL('../src/scripts/intro.js', import.meta.url), 'utf8');
+const source = readFileSync(new URL('../src/scripts/intro.js', import.meta.url), 'utf8').replace(/^import .*;\n/, '');
 function setup({storage = new Map(), hash = '', reduced = false, failAnimation = false, storageBlocked = false, animationAvailable = true, width = 1200, height = 800} = {}) {
-  const effects = [], timers = new Map();
+  const effects = [], timers = new Map(), flights = [];
   let timerId = 0;
   const document = {activeElement: null, documentElement:{dataset:{}}, timeline:{currentTime:4200}};
   class Element {
@@ -39,11 +39,11 @@ function setup({storage = new Map(), hash = '', reduced = false, failAnimation =
   root.querySelectorAll = () => [nodes['.hero-primary']];
   const events = new Element();
   Object.assign(document, {getElementById: () => root, querySelector: key => nodes[key], createElement: () => new Element(), addEventListener: events.addEventListener.bind(events)});
-  vm.runInNewContext(source, {document, window, getComputedStyle: () => ({backgroundColor:'#f5f4ef',color:'#19191b',webkitTextStrokeColor:'#19191b'}), location: {hash}, sessionStorage: {
+  vm.runInNewContext(source, {portraitFlight: () => {const flight = {cancelled:false}; flights.push(flight); return () => {flight.cancelled=true;};}, document, window, getComputedStyle: () => ({backgroundColor:'#f5f4ef',color:'#19191b',webkitTextStrokeColor:'#19191b'}), location: {hash}, sessionStorage: {
     getItem(key) {if (storageBlocked) throw Error('Blocked'); return storage.get(key);},
     setItem(key, value) {if (storageBlocked) throw Error('Blocked'); storage.set(key, value);}
   }, setTimeout(fn, delay) {timers.set(++timerId, {fn, delay}); return timerId;}, clearTimeout(id) {timers.delete(id);}});
-  return {nodes, root, window, motion, document, events, effects, timers, storage};
+  return {nodes, root, window, motion, document, events, effects, timers, storage, flights};
 }
 function assertClean(a) {
   assert.equal(a.nodes['.ki-skip'].hidden, true);
@@ -52,8 +52,9 @@ function assertClean(a) {
   assert.equal(a.nodes['.ki-intro-mark'].style.visibility, 'hidden');
   assert.equal(a.timers.size, 0);
   assert.ok(a.effects.every(effect => effect.cancelled));
+  assert.ok(a.flights.every(flight => flight.cancelled));
 }
-test('coordinated timeline overlaps portrait travel, name and supporting content, then settles at 2600ms', () => {
+test('coordinated timeline overlaps portrait travel, name and supporting content, then settles at 3100ms', () => {
   const a = setup();
   assert.equal(a.nodes['.ki-skip'].hidden, false);
   assert.equal(a.nodes['#ki-play'].hidden, false);
@@ -61,14 +62,15 @@ test('coordinated timeline overlaps portrait travel, name and supporting content
   assert.equal(mark.options.delay, 400); assert.equal(mark.frames[0].opacity, 1);
   const portrait = a.effects.find(e => e.element === a.nodes['.ki-portrait']);
   const name = a.effects.find(e => e.element === a.nodes['.ki-name'] && e.frames[0].clipPath);
-  assert.equal(portrait.options.duration, 1900);
+  assert.equal(portrait.options.duration, 250);
+  assert.equal(portrait.options.delay, 2400);
+  assert.equal(a.flights.length, 1);
   assert.equal(name.options.delay, 1000);
-  assert.ok(name.options.delay < portrait.options.duration);
-  assert.equal(portrait.frames.at(-1).transform, 'translate(0,0)');
+  assert.ok(name.options.delay < portrait.options.delay);
   assert.equal(portrait.frames.at(-1).opacity, 1);
   const description = a.nodes['.ki-description'].children.map(child => a.effects.find(e => e.element === child));
   assert.deepEqual(description.map(e => e.options.delay), [1700,1775,1850]);
-  assert.equal([...a.timers.values()][0].delay, 2600);
+  assert.equal([...a.timers.values()][0].delay, 3100);
   assert.ok(a.effects.every(effect => effect.startTime === 4200));
   assert.equal(a.storage.has('kim-intro-seen'), false);
   [...a.timers.values()][0].fn(); assertClean(a);
@@ -128,12 +130,13 @@ test('unavailable or throwing animation API leaves the page visible with no pend
 });
 
 
-test('mobile portrait travel is bounded and resizing settles into the responsive final layout', () => {
+test('mobile portrait hands off to the responsive image and resizing settles into the responsive final layout', () => {
   const a = setup({width:390,height:844});
   assert.equal(a.document.documentElement.dataset.intro, 'running');
   assert.equal(a.root.inert, true);
   const portrait = a.effects.find(e => e.element === a.nodes['.ki-portrait']);
-  assert.equal(portrait.frames[0].transform, 'translate(-48px,22px)');
+  assert.equal(portrait.frames[0].opacity, 0);
+  assert.equal(a.flights.length, 1);
   assert.deepEqual(a.nodes['.ki-portrait'].style, {});
   a.window.fire('resize'); assertClean(a);
 });

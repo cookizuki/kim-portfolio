@@ -4,6 +4,23 @@ document.querySelectorAll('.project-carousel').forEach(root => {
   const slides = [...root.querySelectorAll('.project-slide')];
   const selectors = [...root.querySelectorAll('[data-project-select]')];
   const surface = root.querySelector('.project-viewport');
+  const orbit = root.querySelector('.project-orbit');
+  const back = root.querySelector('.orbit-back');
+  if (orbit && back) {
+    root.dataset.overview = 'true';
+    back.addEventListener('click', () => {
+      settle(); delete root.dataset.detail; root.dataset.overview='true'; back.hidden=true;
+      selectors.forEach(b=>b.setAttribute('aria-pressed','false'));
+      selectors[index]?.focus({preventScroll:true});
+    });
+  }
+  function openDetail() {
+    if (!orbit || !back) return;
+    delete root.dataset.overview; root.dataset.detail='true'; back.hidden=false;
+    selectors.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+    back.focus({preventScroll:true});
+    if (!reduced.matches) root.querySelector('.project-viewport').animate([{opacity:0,transform:'scale(.94) translateY(20px)'},{opacity:1,transform:'none'}],{duration:500,easing:'cubic-bezier(.22,1,.36,1)'});
+  }
   let index = 0, animations = [], run = 0, touch, suppressClick = false;
   function settle() {
     run++;
@@ -50,9 +67,9 @@ document.querySelectorAll('.project-carousel').forEach(root => {
     observer.observe(root);
   }
   root.querySelectorAll('[data-project-step]').forEach(button => button.addEventListener('click', () => move(Number(button.dataset.projectStep))));
-  selectors.forEach((button, i) => button.addEventListener('click', () => select(i)));
+  selectors.forEach((button, i) => button.addEventListener('click', () => {select(i); openDetail();}));
   root.addEventListener('keydown', event => {
-    if (event.target.closest('dialog, input, textarea, select')) return;
+    if (root.dataset.overview || event.target.closest('dialog, input, textarea, select')) return;
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); }
     if (event.key === 'Home' || event.key === 'End') { event.preventDefault(); select(event.key === 'Home' ? 0 : slides.length - 1); }
   });
