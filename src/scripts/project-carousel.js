@@ -6,20 +6,47 @@ document.querySelectorAll('.project-carousel').forEach(root => {
   const surface = root.querySelector('.project-viewport');
   const orbit = root.querySelector('.project-orbit');
   const back = root.querySelector('.orbit-back');
+  const modal=root.querySelector('.project-fullscreen');
+  let opener, scrollLock;
   if (orbit && back) {
     root.dataset.overview = 'true';
     back.addEventListener('click', () => {
-      settle(); delete root.dataset.detail; root.dataset.overview='true'; back.hidden=true;
-      selectors.forEach(b=>b.setAttribute('aria-pressed','false'));
-      selectors[index]?.focus({preventScroll:true});
+      if(modal?.open) modal.close();
+      else restoreOverview();
+    });
+  }
+  function restoreOverview() {
+    settle(); delete root.dataset.detail; root.dataset.overview='true'; back.hidden=true;
+    selectors.forEach(b=>b.setAttribute('aria-pressed','false'));
+    if(scrollLock) {
+      document.documentElement.style.overflow=scrollLock.html;
+      document.body.style.overflow=scrollLock.body;
+      window.scrollTo({top:scrollLock.y,behavior:'instant'});scrollLock=null;
+    }
+    root.dataset.restoring='true';
+    (opener || selectors[index])?.focus({preventScroll:true});
+    delete root.dataset.restoring;
+    document.dispatchEvent(new Event('portfolio:modal-close'));
+  }
+  if(modal) {
+    modal.addEventListener('close',restoreOverview);
+    modal.addEventListener('keydown',event=>{
+      if(event.target.closest('.screenshot-viewer'))return;
+      event.stopPropagation();
+      if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();move(event.key==='ArrowRight'?1:-1);}
     });
   }
   function openDetail() {
     if (!orbit || !back) return;
+    opener=selectors[index];
     delete root.dataset.overview; root.dataset.detail='true'; back.hidden=false;
     selectors.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+    if(modal&&!modal.open) {
+      scrollLock={html:document.documentElement.style.overflow,body:document.body.style.overflow,y:scrollY};
+      document.documentElement.style.overflow='hidden';document.body.style.overflow='hidden';
+      modal.showModal();modal.scrollTop=0;
+    }
     back.focus({preventScroll:true});
-    if (!reduced.matches) root.querySelector('.project-viewport').animate([{opacity:0,transform:'scale(.94) translateY(20px)'},{opacity:1,transform:'none'}],{duration:500,easing:'cubic-bezier(.22,1,.36,1)'});
   }
   let index = 0, animations = [], run = 0, touch, suppressClick = false;
   function settle() {
@@ -41,7 +68,7 @@ document.querySelectorAll('.project-carousel').forEach(root => {
     const previousTransform = getComputedStyle(outgoing).transform;
     const returningTransform = slides[target].dataset.departing === 'true' ? getComputedStyle(slides[target]).transform : null;
     settle();
-    if (outgoing.contains(document.activeElement)) root.focus({preventScroll: true});
+    if (outgoing.contains(document.activeElement)) (modal?.open ? modal : root).focus({preventScroll: true});
     index = target; prepare(index);
     slides.forEach((slide, i) => {
       slide.inert = i !== index;

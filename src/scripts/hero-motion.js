@@ -52,6 +52,7 @@ const reveals=new IntersectionObserver(entries=>{
   if(!entry.isIntersecting||revealed.has(entry.target))continue;
   revealed.add(entry.target);reveals.unobserve(entry.target);
   if(reduce.matches||document.hidden)continue;
+  if(entry.target.hasAttribute?.('data-scroll-scene'))continue;
   const elements=entry.target.id==='ke-about'?[...entry.target.querySelectorAll('.kim-about-photo,#about-heading,p,.ke-resume')]:[entry.target];
   elements.forEach((element,i)=>{
    const a=element.animate([{opacity:.35,translate:'0 16px'},{opacity:1,translate:'0 0'}],{duration:460,delay:i*70,easing:'cubic-bezier(.2,.7,.2,1)',fill:'backwards'});
