@@ -1,7 +1,7 @@
 /* Native sticky scenes: ordinary page scrolling, no wheel interception. */
 #kim-portfolio .scroll-scene {position:relative}
 #kim-portfolio .scroll-scene .scene-stage {position:relative;box-sizing:border-box}
-#kim-portfolio .scroll-scene[data-scroll-ready] {padding:0;min-height:0;height:var(--scene-length,240svh);overflow:visible;display:block}
+#kim-portfolio .scroll-scene[data-scroll-ready] {padding:0;min-height:0;height:var(--scene-length,360svh);overflow:visible;display:block}
 #kim-portfolio .scroll-scene[data-scroll-ready] .scene-stage {position:sticky;top:var(--header-height,73px);height:calc(100svh - var(--header-height,73px));overflow:clip}
 #kim-portfolio .about-scroll {padding:0;display:block;background:#000;color:#f4f1e9}
 .about-stage {isolation:isolate;padding:64px 6%}
@@ -33,7 +33,7 @@
 #kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide {min-height:0;padding:16px 0}
 #kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide h3 {font-size:clamp(36px,6.8cqw,92px)}
 #kim-portfolio .contribution-section .ke-sectionline {color:inherit}
-#kim-portfolio .work-scroll[data-scroll-ready] {--scene-length:360svh}
+#kim-portfolio .work-scroll[data-scroll-ready] {--scene-length:600svh}
 .work-stage {padding:36px 5%}
 #kim-portfolio .work-scroll[data-scroll-ready] .project-carousel {height:calc(100% - 30px);position:relative}
 #kim-portfolio .work-scroll[data-scroll-ready] .project-orbit {position:absolute;inset:0;margin:0;min-height:0;height:100%;max-height:none;overflow:clip}
@@ -68,7 +68,42 @@
  .work-scroll-caption {font-size:10px;align-items:end}
  #kim-portfolio .project-fullscreen .project-slide {min-height:0}
 }
-@media(prefers-reduced-motion:reduce),(max-height:700px) {
+@media(prefers-reduced-motion:reduce) {
  #kim-portfolio .scroll-scene[data-scroll-ready] {height:auto}
  #kim-portfolio .scroll-scene[data-scroll-ready] .scene-stage {position:relative;top:auto;height:auto;overflow:visible}
+}
+
+/* These motion scenes remain enabled on laptop-height viewports. */
+#kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-orbit .project-selectors {inset:0;left:0;top:0;translate:none;width:100%;height:100%;max-width:none;border:0;border-radius:0}
+#kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-orbit .project-selectors button {left:50%;top:50%;transition:none}
+#kim-portfolio .about-scroll[data-scroll-ready] .about-stage {padding:clamp(16px,4vh,48px) 6%}
+#kim-portfolio .about-scroll[data-scroll-ready] .about-background {object-fit:cover;will-change:transform,clip-path}
+#kim-portfolio .about-scroll[data-scroll-ready] .about-reveal {max-height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+#kim-portfolio .about-scroll[data-scroll-ready] .about-restored-portrait {width:min(100%,320px)}
+@media(max-width:700px) {
+ #kim-portfolio .about-scroll[data-scroll-ready] .about-background {object-fit:contain;min-width:100%}
+ #kim-portfolio .about-scroll[data-scroll-ready] .about-restored-portrait {width:135px}
+ #kim-portfolio .about-scroll[data-scroll-ready] .about-reveal {align-content:start;padding:10px 0}
+}
+@media(min-width:701px) and (max-height:740px) {
+ #kim-portfolio .about-reveal-copy h3 {font-size:32px;margin:12px 0}
+ #kim-portfolio .about-reveal-copy p {font-size:13px;line-height:1.6}
+ .about-interests {margin:12px 0}
+ #kim-portfolio .contribution-section[data-scroll-ready] h2 {font-size:30px;margin:8px 0}
+ .experience-stage {padding:20px 5%}
+ #kim-portfolio .contribution-section[data-scroll-ready] .contribution-slide h3 {font-size:clamp(32px,5cqw,68px)}
+}
+
+#kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-orbit .project-selectors button {scale:1;transform-origin:center}
+#kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-selectors button>span {font-size:var(--card-caption-size,11px);gap:4px;padding:10px 0 2px}
+#kim-portfolio .work-scroll[data-scroll-ready] .orbit-title {gap:12px}
+#kim-portfolio .work-scroll[data-scroll-ready] .orbit-title strong {font-size:clamp(26px,5vh,48px)}
+#kim-portfolio .work-scroll[data-scroll-ready] .orbit-title strong span {font-size:clamp(24px,4vh,40px)}
+#kim-portfolio .scroll-scene.work-scroll[data-scroll-ready] .project-orbit .project-selectors button:is(:hover,:focus-visible) {scale:1;transition:none}
+
+#kim-portfolio .work-scroll[data-scroll-ready] .orbit-title > .ke-mono:last-child {display:none}
+@media(max-width:700px) {
+ #kim-portfolio .work-scroll[data-scroll-ready] .orbit-title strong {font-size:26px}
+ #kim-portfolio .work-scroll[data-scroll-ready] .orbit-title strong span {font-size:24px}
+ #kim-portfolio .work-scroll[data-scroll-ready] .work-scroll-caption {font-size:10px}
 }
