@@ -10,9 +10,7 @@ function render() {
   for (const scene of scenes) {
     const stage=scene.querySelector('.scene-stage');
     const enabled=!reduced.matches;
-    // Always initialize the scene layout. Reduced-motion users get a static,
-    // fully visible composition instead of losing the scene styling entirely.
-    scene.setAttribute('data-scroll-ready','');
+    scene.toggleAttribute('data-scroll-ready',enabled);
     const rect=scene.getBoundingClientRect();
     const top=parseFloat(getComputedStyle(stage).top)||0;
     const distance=Math.max(1,scene.offsetHeight-stage.offsetHeight);
@@ -96,7 +94,7 @@ reduced.addEventListener('change',schedule);
 document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;}else schedule();});
 document.addEventListener('portfolio:modal-close',schedule);
 scenes.forEach(scene=>scene.addEventListener('scene:seek',e=>{
-  if(reduced.matches||!scene.hasAttribute('data-scroll-ready'))return;
+  if(!scene.hasAttribute('data-scroll-ready'))return;
   const stage=scene.querySelector('.scene-stage'),top=parseFloat(getComputedStyle(stage).top)||0;
   const start=scrollY+scene.getBoundingClientRect().top-top;
   window.scrollTo({top:start+clamp(e.detail.progress)*(scene.offsetHeight-stage.offsetHeight),behavior:'instant'});
@@ -105,7 +103,7 @@ scenes.forEach(scene=>scene.addEventListener('scene:seek',e=>{
 document.querySelectorAll('[data-project-select]').forEach((card,i,all)=>card.addEventListener('focus',()=>{
   if(card.closest('.project-carousel')?.dataset.restoring)return;
   const scene=card.closest('[data-scroll-scene]');
-  if(!reduced.matches&&card.matches(':focus-visible')&&scene?.hasAttribute('data-scroll-ready')) scene.dispatchEvent(new CustomEvent('scene:seek',{detail:{progress:.56+.4*i/Math.max(1,all.length-1)}}));
+  if(card.matches(':focus-visible')&&scene?.hasAttribute('data-scroll-ready')) scene.dispatchEvent(new CustomEvent('scene:seek',{detail:{progress:.56+.4*i/Math.max(1,all.length-1)}}));
 }));
 const resize=new ResizeObserver(schedule);scenes.forEach(s=>resize.observe(s.querySelector('.scene-stage')));
 schedule();
